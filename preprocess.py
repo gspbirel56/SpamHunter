@@ -2,14 +2,16 @@ import numpy as np
 import pandas as pd
 import re
 from collections import Counter
+import xml.etree.ElementTree
+from joblib import dump, load
 
 ### define features from training data
 ### input - spam/ham training set
 ### returns a list of feature words
-def defineFeatures(data, num_features=100):
+def defineFeatures(data, num_features=1000):
     #create list of text and labels
-    text =  data['v2'].tolist()
-    labels = data['v1'].tolist()
+    text =  data['text'].tolist()
+    labels = data['class'].tolist()
     
     #read in list of stop words
     stop_words = []
@@ -53,10 +55,17 @@ def extract(features, message):
     #create list of words from text
     words = clean.lower().split('|')
     
+    """
+    #one-hot
     #set feature value to 1 if word is found in text
     for i in range(len(features)):
         if features[i] in words:
             vector[i] = 1
+    """
+    #count occurrences of feature word in text
+    for i in range(len(features)):
+        vector[i] = words.count(features[i])
+    
     return vector
 
 
@@ -65,8 +74,8 @@ def extract(features, message):
 ### returns a numpy matrix containing a feature vector for each message, also returns an array of correct labels
 def prepare(features, data):
     #create list of text and labels
-    text =  data['v2'].tolist()
-    labels = data['v1'].tolist()
+    text =  data['text'].tolist()
+    labels = data['class'].tolist()
     
     #create feature matrix
     matrix = []
@@ -85,11 +94,33 @@ def prepare(features, data):
 
 ##############################################################################################################################################
 #read in training and testing data
-data = pd.read_csv('kaggle.csv', header=None).drop(2, axis=1)
+#kaggle and UCI contain the same data
 
+data = pd.read_csv('UCI.csv', header=None).drop(2, axis=1)
+data = data.drop_duplicates()
+
+#remove subject lines
+df = pd.read_csv('enron.csv', header=None).drop(2, axis=1)
+for i in range(len(df)):
+    df[1][i] = df[1][i].replace('Subject: ', '', 1)
+
+df = df.drop_duplicates()
+data = pd.concat([data, df])
+
+#remove html tags
+df = pd.read_csv('spamassassin.csv', header=None).drop(2, axis=1)
+for i in range(len(df)):
+    #df[1][i] = '' + xml.etree.ElementTree.fromstring(str(df[1][i])).itertext()
+    df[1][i] = re.sub(r'<[^>]+>', '', df[1][i])
+
+df = df.drop_duplicates()
+data = pd.concat([data, df])
+data.columns = ['class', 'text']
+#print(data.describe())
 
 #extract features from training data
-#features = defineFeatures(data)
+features = defineFeatures(data)
+dump(features, 'features.joblib')
 
 #create feature matrix for training and testing data
-#X, Y = prepare(features, data)
+X, Y = prepare(features, data)
