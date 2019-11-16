@@ -5,18 +5,20 @@ import os
 from collections import Counter
 from joblib import dump, load
 
+
 def clean_text(text):
     #remove html tags
-    """"""
+    clean = re.sub('<[^<]+?>', '', text)
     #remove urls
-    """"""
+    clean = re.sub('http[s]?://\S+', '', clean)
     #remove email addresses
-    """"""
+    clean = re.sub('\S*@\S*\s?', '', clean)
     #remove any remaining non alphabetic characters
-    clean = re.sub('[^a-zA-Z\']+', ' ', text)
-    clean = clean.lower()
-    
+    clean = re.sub('[^a-zA-Z]+', ' ', clean)
+    clean = clean.lower().strip()    
     return clean
+
+
 
 ### define features from training data
 ### input - spam/ham training set
@@ -58,6 +60,7 @@ def define_features(data, num_features=1000):
     return [item[0] for item in features]
 
 
+
 ### creates a feature vector from a message
 ### input - list of feature words and an sms message
 ### returns a feature vector of 1 if feature is found in text and 0 if feature is not
@@ -80,6 +83,7 @@ def extract(features, message):
         vector[i] = words.count(features[i])
     
     return vector
+
 
 
 ### creates a feature matrix from a data set
@@ -105,7 +109,7 @@ def prepare(features, data):
     return np.array(matrix), target
 
 
-##############################################################################################################################################
+
 #read in training and testing data
 #kaggle and UCI contain the same data
 def read_data():
@@ -117,29 +121,31 @@ def read_data():
     
     #read spamassassin data
     data = pd.concat([data, pd.read_csv('spamassassin.csv', header=None).drop(2, axis=1)])
-
+    
     data = data.drop_duplicates()
     data = data.dropna(axis=0, how='any')
     data.reset_index(drop=True, inplace=True)
     data.columns = ['class', 'text']
 
-    #extract features from training data
-    features = define_features(data)
-    dump(features, 'features.joblib')
-    
-    #create feature matrix for training and testing data
-    X, Y = prepare(features, data)
-    dump(X, 'X.joblib')
-    dump(Y, 'Y.joblib')
+    return data
+
+
 
 # for API
-def loadXY():
-    if not os.path.isfile('X.joblib') or not os.path.isfile('Y.joblib'):
-        read_data()
-    
-    X = load('X.joblib')
-    Y = load('Y.joblib')
-    
-    return X, Y
-
-read_data()
+def loadXY(refresh_data=False):
+    if not os.path.isfile('X.joblib') or not os.path.isfile('Y.joblib') or refresh_data:
+        data = read_data()
+        
+        #extract features from training data
+        features = define_features(data)
+        dump(features, 'features.joblib')
+        
+        #create feature matrix for training and testing data
+        X, Y = prepare(features, data)
+        dump(X, 'X.joblib')
+        dump(Y, 'Y.joblib')        
+        return X, Y
+    else :
+        X = load('X.joblib')
+        Y = load('Y.joblib')
+        return X, Y
