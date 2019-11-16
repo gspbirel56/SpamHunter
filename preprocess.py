@@ -138,21 +138,3 @@ def loadXY():
     Y = load('Y.joblib')
     
     return X, Y
-
-
-
-df = df.drop_duplicates()
-data = pd.concat([data, df])
-data.columns = ['class', 'text']
-#print(data.describe())
-
-#extract features from training data
-features = defineFeatures(data)
-dump(features, 'features.joblib')
-
-#create feature matrix for training and testing data
-X, Y = prepare(features, data)
-
-# for API
-def loadXY():
-    return [X, Y]
