@@ -1,0 +1,67 @@
+<html>
+    <style>
+        textarea[name="message"] {
+            width: 80%;
+            height: 20%;
+            resize: none;
+        }
+    </style>
+
+    <!-- Title -->
+    <title>Spam Hunter</title>
+
+    <!-- Meat 'n potatoes -->
+    <body>
+        <div id="interactivity">
+            <!-- User interactivity portion -->
+            <h3>Type your message here:</h3>
+            <textarea name="message"></textarea>
+            <p>Is it spam or ham? <button>Find out!</button> </p> 
+        </div>
+        <br>
+        <!-- List used in spam -->
+        <div id="spam_words_list">
+            <p>Top 5 words most commonly used in spam:
+                    <ol>
+                        <li>Sex</li>
+                        <li>Prize</li>
+                        <li>Singles</li>
+                        <li>Larry</li>
+                        <li>Win</li>
+                    </ol>
+                </p>
+        </div>
+
+        <div id="top_algorithm">
+            <p>Algorithm currently in use: </p><p name="algorithmInUse"></p>
+            <br>
+            <table>
+                <tr>
+                    <th>Algorithm Name</th>
+                    <th>F1 score</th>
+                </tr>
+                <tr>
+                    <td>Neural Network</td>
+                    <td>1.0</td>
+                </tr>
+                <tr>
+                    <td>Neural Network</td>
+                    <td>1.0</td>
+                </tr>
+                <tr>
+                    <td>Neural Network</td>
+                    <td>1.0</td>
+                </tr>
+                <tr>
+                    <td>Neural Network</td>
+                    <td>1.0</td>
+                </tr>
+                <tr>
+                    <td>Neural Network</td>
+                    <td>1.0</td>
+                </tr>
+            </table>
+        </div>
+        <br>
+    </body>
+</html>
