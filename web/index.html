@@ -16,7 +16,8 @@
             <!-- User interactivity portion -->
             <h3>Type your message here:</h3>
             <textarea name="message"></textarea>
-            <p>Is it spam or ham? <button>Find out!</button> </p> 
+            <p>Is it spam or ham? <button onclick="getPrediction()">Find out!</button> </p>
+            <p id="prediction"></p>
         </div>
         <br>
         <!-- List used in spam -->
@@ -83,3 +84,6 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- ML Script -->
+<script src="js/main.js"></script>
