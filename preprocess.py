@@ -91,11 +91,6 @@ def prepare(features, data):
     
     return np.array(matrix), target
 
-# for API
-def loadXY():
-    X, Y = prepare(features, data)
-    return [X, Y]
-
 
 ##############################################################################################################################################
 #read in training and testing data
@@ -129,3 +124,7 @@ dump(features, 'features.joblib')
 
 #create feature matrix for training and testing data
 X, Y = prepare(features, data)
+
+# for API
+def loadXY():
+    return [X, Y]
