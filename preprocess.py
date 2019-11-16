@@ -97,27 +97,27 @@ def prepare(features, data):
 #read in training and testing data
 #kaggle and UCI contain the same data
 def read_data():
+    #read kaggle data
     data = pd.read_csv('UCI.csv', header=None).drop(2, axis=1)
+    
+    #read enron data
+    data = pd.concat([data, pd.read_csv('enron.csv', header=None).drop(2, axis=1)])
+    
+    #read spamassassin data
+    data = pd.concat([data, pd.read_csv('spamassassin.csv', header=None).drop(2, axis=1)])
+
     data = data.drop_duplicates()
-    
-    #remove subject lines
-    df = pd.read_csv('enron.csv', header=None).drop(2, axis=1)
-    for i in range(len(df)):
-        df[1][i] = df[1][i].replace('Subject: ', '', 1)
-    
-    df = df.drop_duplicates()
-    data = pd.concat([data, df])
-    
-    #remove html tags
-    df = pd.read_csv('spamassassin.csv', header=None).drop(2, axis=1)
-    for i in range(len(df)):
-        #df[1][i] = '' + xml.etree.ElementTree.fromstring(str(df[1][i])).itertext()
-        df[1][i] = re.sub(r'<[^>]+>', '', df[1][i])
-    
-    df = df.drop_duplicates()
-    data = pd.concat([data, df])
+    data = data.dropna(axis=0, how='any')
+    data.reset_index(drop=True, inplace=True)
     data.columns = ['class', 'text']
     #print(data.describe())
+
+    """
+    #remove html tags, urls, and emails from data
+    for i in range(len(data)):
+        #df[1][i] = '' + xml.etree.ElementTree.fromstring(str(df[1][i])).itertext()
+        data[1][i] = re.sub(r'<[^>]+>', '', data[1][i])
+    """
     
     #extract features from training data
     features = defineFeatures(data)
@@ -128,7 +128,6 @@ def read_data():
     dump(X, 'X.joblib')
     dump(Y, 'Y.joblib')
 
-
 # for API
 def loadXY():
     if not os.path.isfile('X.joblib') or not os.path.isfile('Y.joblib'):
@@ -138,3 +137,5 @@ def loadXY():
     Y = load('Y.joblib')
     
     return X, Y
+
+read_data()
