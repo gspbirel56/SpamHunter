@@ -1,6 +1,7 @@
 # preprocessing
+import preprocess
 def preprocessing():
-    pass
+    XYList = preproces.loadXY()
 
 # declaring, training, fitting each algorithm
 def mlinit():
