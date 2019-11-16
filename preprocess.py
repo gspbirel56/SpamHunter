@@ -3,13 +3,25 @@ import pandas as pd
 import re
 import os
 from collections import Counter
-import xml.etree.ElementTree
 from joblib import dump, load
+
+def clean_text(text):
+    #remove html tags
+    """"""
+    #remove urls
+    """"""
+    #remove email addresses
+    """"""
+    #remove any remaining non alphabetic characters
+    clean = re.sub('[^a-zA-Z\']+', ' ', text)
+    clean = clean.lower()
+    
+    return clean
 
 ### define features from training data
 ### input - spam/ham training set
 ### returns a list of feature words
-def defineFeatures(data, num_features=1000):
+def define_features(data, num_features=1000):
     #create list of text and labels
     text =  data['text'].tolist()
     labels = data['class'].tolist()
@@ -24,10 +36,10 @@ def defineFeatures(data, num_features=1000):
     #extract words from text
     word_count = Counter()
     for i in range(len(text)):
-        #remove all non alphabetic characters from text
-        clean = re.sub('[^a-zA-Z\']+', '|', text[i])
+        #clean text
+        clean = clean_text(text[i])
         #create list of words from text
-        words = clean.lower().split('|')
+        words = clean.split()
         for word in words:
             #add each word occurrence for ham words, subtract for spam words
             #typically ham words will have a large positive value
@@ -51,10 +63,10 @@ def defineFeatures(data, num_features=1000):
 ### returns a feature vector of 1 if feature is found in text and 0 if feature is not
 def extract(features, message):
     vector = [0] * len(features)
-    #remove all non alphabetic characters from text
-    clean = re.sub('[^a-zA-Z\']+', '|', message)
+    #clean text
+    clean = clean_text(message)
     #create list of words from text
-    words = clean.lower().split('|')
+    words = clean.split()
     
     """
     #one-hot
@@ -110,17 +122,9 @@ def read_data():
     data = data.dropna(axis=0, how='any')
     data.reset_index(drop=True, inplace=True)
     data.columns = ['class', 'text']
-    #print(data.describe())
 
-    """
-    #remove html tags, urls, and emails from data
-    for i in range(len(data)):
-        #df[1][i] = '' + xml.etree.ElementTree.fromstring(str(df[1][i])).itertext()
-        data[1][i] = re.sub(r'<[^>]+>', '', data[1][i])
-    """
-    
     #extract features from training data
-    features = defineFeatures(data)
+    features = define_features(data)
     dump(features, 'features.joblib')
     
     #create feature matrix for training and testing data
