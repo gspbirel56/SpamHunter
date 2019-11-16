@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import re
+import os
 from collections import Counter
 import xml.etree.ElementTree
 from joblib import dump, load
@@ -95,36 +96,45 @@ def prepare(features, data):
 ##############################################################################################################################################
 #read in training and testing data
 #kaggle and UCI contain the same data
+def read_data():
+    data = pd.read_csv('UCI.csv', header=None).drop(2, axis=1)
+    data = data.drop_duplicates()
+    
+    #remove subject lines
+    df = pd.read_csv('enron.csv', header=None).drop(2, axis=1)
+    for i in range(len(df)):
+        df[1][i] = df[1][i].replace('Subject: ', '', 1)
+    
+    df = df.drop_duplicates()
+    data = pd.concat([data, df])
+    
+    #remove html tags
+    df = pd.read_csv('spamassassin.csv', header=None).drop(2, axis=1)
+    for i in range(len(df)):
+        #df[1][i] = '' + xml.etree.ElementTree.fromstring(str(df[1][i])).itertext()
+        df[1][i] = re.sub(r'<[^>]+>', '', df[1][i])
+    
+    df = df.drop_duplicates()
+    data = pd.concat([data, df])
+    data.columns = ['class', 'text']
+    #print(data.describe())
+    
+    #extract features from training data
+    features = defineFeatures(data)
+    dump(features, 'features.joblib')
+    
+    #create feature matrix for training and testing data
+    X, Y = prepare(features, data)
+    dump(X, 'X.joblib')
+    dump(Y, 'Y.joblib')
 
-data = pd.read_csv('UCI.csv', header=None).drop(2, axis=1)
-data = data.drop_duplicates()
-
-#remove subject lines
-df = pd.read_csv('enron.csv', header=None).drop(2, axis=1)
-for i in range(len(df)):
-    df[1][i] = df[1][i].replace('Subject: ', '', 1)
-
-df = df.drop_duplicates()
-data = pd.concat([data, df])
-
-#remove html tags
-df = pd.read_csv('spamassassin.csv', header=None).drop(2, axis=1)
-for i in range(len(df)):
-    #df[1][i] = '' + xml.etree.ElementTree.fromstring(str(df[1][i])).itertext()
-    df[1][i] = re.sub(r'<[^>]+>', '', df[1][i])
-
-df = df.drop_duplicates()
-data = pd.concat([data, df])
-data.columns = ['class', 'text']
-#print(data.describe())
-
-#extract features from training data
-features = defineFeatures(data)
-dump(features, 'features.joblib')
-
-#create feature matrix for training and testing data
-X, Y = prepare(features, data)
 
 # for API
 def loadXY():
-    return [X, Y]
+    if not os.path.isfile('X.joblib') or not os.path.isfile('Y.joblib'):
+        read_data()
+    
+    X = load('X.joblib')
+    Y = load('Y.joblib')
+    
+    return X, Y

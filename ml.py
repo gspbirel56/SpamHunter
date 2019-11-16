@@ -2,8 +2,9 @@
 X_train = []
 Y_train = []
 import preprocess
+
 def preprocessing():
-    XYList = preproces.loadXY()
+    XYList = preprocess.loadXY()
     X_train = XYList[0]
     Y_train = XYList[1]
 
