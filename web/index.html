@@ -11,7 +11,7 @@
     <title>Spam Hunter</title>
 
     <!-- Meat 'n potatoes -->
-    <body onload="getTopFiveAlgorithms()">
+    <body onload="initializeIndex()">
         <div id="interactivity" class="jumbotron">
             <!-- User interactivity portion -->
             <h3>Type your message here:</h3>
@@ -24,11 +24,11 @@
         <div id="spam_words_list">
             <p>Top 5 words most commonly used in spam:
                     <ol>
-                        <li>Sex</li>
-                        <li>Prize</li>
-                        <li>Singles</li>
-                        <li>Larry</li>
-                        <li>Win</li>
+                        <li id="top1">Sex</li>
+                        <li id="top2">Prize</li>
+                        <li id="top3">Singles</li>
+                        <li id="top4">Larry</li>
+                        <li id="top5">Win</li>
                     </ol>
                 </p>
         </div>
