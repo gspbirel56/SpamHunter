@@ -18,7 +18,7 @@ def display_greeting():
 # Endpoint to load js files
 @app.route('/js/main.js')
 def get_script():
-    doctype = 'application/js'
+    doctype = 'text/js'
     return send_from_directory('web/js', 'main.js', mimetype=doctype)
 
 # Return the prediction label to the frontend

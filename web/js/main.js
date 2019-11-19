@@ -1,4 +1,5 @@
 
+// todo fix this to actually send the message data
 function getPrediction() {
     var url = "http://localhost:8080"
     var endpoint = "/predict"
@@ -21,6 +22,38 @@ function getPrediction() {
         }
         else {
             console.log("Error getting prediction from the backend server. (Is it running?)");
+        }
+    }
+}
+
+// todo fix this to actually send the message data
+function correctPrediction(correctLabel) {
+    // debug
+    var message = document.getElementById('message').value;
+    console.log(message + " is " + correctLabel);
+
+    // starter code
+    var url = "http://localhost:8080"
+    var endpoint = "/correctPrediction"
+
+    var http = new XMLHttpRequest();
+
+    http.open("GET", url + endpoint, true);
+
+    http.onreadystatechange = function() {
+        var DONE = 4;       // 4 means that the request is done
+        var OK = 200;       // 200 means a successful return
+        if (http.readyState == DONE && http.status == OK && http.responseText) {
+            // JSON string
+            replyString = http.responseText;
+
+            // JSON -> JS obj
+            replyObj = JSON.parse(replyString);
+
+            document.getElementById("prediction").innerText = replyObj.prediction;  // signifies that we need a string called prediction from the backend
+        }
+        else {
+            console.log("Error correcting prediction from the backend server. (Is it running?)");
         }
     }
 }

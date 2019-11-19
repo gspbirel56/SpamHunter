@@ -16,8 +16,8 @@
             <p>Is it spam or ham? <button onclick="getPrediction()">Find out!</button> </p>
             <p id="prediction"></p>
             <p>Is this prediction correct?</p>
-            <button id="report_ham">This is actually a ham!</button>
-            <button id="report_spam">This is actually a spam!</button>
+            <button id="report_ham" onclick="correctPrediction('ham')">This is actually a ham!</button>
+            <button id="report_spam" onclick="correctPrediction('spam')">This is actually a spam!</button>
             <button id="clear" onclick="clearIndex()">Clear</button>
         </div>
         <br>
