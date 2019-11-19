@@ -35,11 +35,21 @@ def correctPrediction():
 
 @app.route('/getAlgorithms')
 def getTopFiveAlgorithms():
-    return "1, 2, 3, 4, and 5 are all NN"
+    name = ["This (in use)", "Comes", "From", "The", "Server"]
+    f1 = ["5", "4", "3", "2", "1"]
+    val = {
+        "name": name,
+        "f1": f1
+    }
+    return val
 
 @app.route('/getWords')
 def getTopFiveWords():
-    return "Larry == spam"
+    word = ["Larry", "Schultheis", "Larry", "Schultheis", "Larry"]
+    val = {
+        "words": word
+    }
+    return val
 
 
 # Run the app!

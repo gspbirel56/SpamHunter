@@ -78,23 +78,22 @@ function getTopFiveAlgorithms() {
             replyObj = JSON.parse(replyString);
 
             // put the algorithm names in their ranked order
-            document.getElementById("alg1_name").innerText = replyObj.name[0];
+            document.getElementById("alg1_name").innerHTML = "<b>" + replyObj.name[0] + "</b>";
             document.getElementById("alg2_name").innerText = replyObj.name[1];
             document.getElementById("alg3_name").innerText = replyObj.name[2];
             document.getElementById("alg4_name").innerText = replyObj.name[3];
             document.getElementById("alg5_name").innerText = replyObj.name[4];
 
             // put the algorithms' F1 scores in their ranked order
-            document.getElementById("alg1_f1").innerText = replyObj.f1[0];
+            document.getElementById("alg1_f1").innerHTML = "<b>" + replyObj.f1[0] + "</b>";
             document.getElementById("alg2_f1").innerText = replyObj.f1[1];
             document.getElementById("alg3_f1").innerText = replyObj.f1[2];
             document.getElementById("alg4_f1").innerText = replyObj.f1[3];
             document.getElementById("alg5_f1").innerText = replyObj.f1[4];
         }
-        else {
-            console.log("Error getting ranked algorithms/F1 scores from the backend server. (Is it running?)");
-        }
     }
+
+    http.send();
 
     // for debug purposes until the server communication is implemented
     //var placeholder_name = "qaoweifj";
@@ -123,23 +122,14 @@ function getTopFiveWords() {
             replyObj = JSON.parse(replyString);
 
             // put the algorithm names in their ranked order
-            document.getElementById("alg1_name").innerText = replyObj.name[0];
-            document.getElementById("alg2_name").innerText = replyObj.name[1];
-            document.getElementById("alg3_name").innerText = replyObj.name[2];
-            document.getElementById("alg4_name").innerText = replyObj.name[3];
-            document.getElementById("alg5_name").innerText = replyObj.name[4];
-
-            // put the algorithms' F1 scores in their ranked order
-            document.getElementById("alg1_f1").innerText = replyObj.f1[0];
-            document.getElementById("alg2_f1").innerText = replyObj.f1[1];
-            document.getElementById("alg3_f1").innerText = replyObj.f1[2];
-            document.getElementById("alg4_f1").innerText = replyObj.f1[3];
-            document.getElementById("alg5_f1").innerText = replyObj.f1[4];
-        }
-        else {
-            console.log("Error getting ranked algorithms/F1 scores from the backend server. (Is it running?)");
+            document.getElementById("top1").innerText = replyObj.words[0];
+            document.getElementById("top2").innerText = replyObj.words[1];
+            document.getElementById("top3").innerText = replyObj.words[2];
+            document.getElementById("top4").innerText = replyObj.words[3];
+            document.getElementById("top5").innerText = replyObj.words[4];
         }
     }
+    http.send();
 }
 
 function initializeIndex() {
