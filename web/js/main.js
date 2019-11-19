@@ -1,4 +1,6 @@
 
+document.addEventListener('DOMContentLoaded', loadGraphs())
+
 // todo fix this to actually send the message data
 function getPrediction() {
     var url = "http://localhost:8080"
@@ -28,6 +30,8 @@ function getPrediction() {
 
 // todo fix this to actually send the message data
 function correctPrediction(correctLabel) {
+    
+
     // debug
     var message = document.getElementById('message').value;
     console.log(message + " is " + correctLabel);
@@ -143,4 +147,30 @@ function initializeIndex() {
 // when the Clear button is pressed, clear the message textarea
 function clearIndex() {
     document.getElementById("message").value = "";
+}
+
+function loadGraphs(){
+    var myChart = Highcharts.chart('other_visualizations', {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Fruit Consumption'
+        },
+        xAxis: {
+            categories: ['Apples', 'Bananas', 'Oranges']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: 'Jane',
+            data: [1, 0, 4]
+        }, {
+            name: 'John',
+            data: [5, 7, 3]
+        }]
+    });
 }
