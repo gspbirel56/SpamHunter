@@ -58,6 +58,7 @@ function correctPrediction(correctLabel) {
     }
 }
 
+// todo get these actual from ml.py
 function getTopFiveAlgorithms() {
     var url = "http://localhost:8080"
     var endpoint = "/getAlgorithms"
@@ -102,6 +103,7 @@ function getTopFiveAlgorithms() {
     //document.getElementById("alg1_f1").innerText = placeholder_f1;
 }
 
+// todo get actual values from ml.py
 function getTopFiveWords() {
     var url = "http://localhost:8080"
     var endpoint = "/getWords"
@@ -132,11 +134,13 @@ function getTopFiveWords() {
     http.send();
 }
 
+// called on index.html load: gets the top 5 algorithms and the top 5 words from server.py
 function initializeIndex() {
     getTopFiveAlgorithms();
     getTopFiveWords();
 }
 
+// when the Clear button is pressed, clear the message textarea
 function clearIndex() {
     document.getElementById("message").value = "";
 }
