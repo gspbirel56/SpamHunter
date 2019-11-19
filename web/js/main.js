@@ -105,6 +105,7 @@ function getTopFiveWords() {
         else {
             console.log("Error getting ranked algorithms/F1 scores from the backend server. (Is it running?)");
         }
+    }
 }
 
 function initializeIndex() {
