@@ -1,5 +1,5 @@
 
-document.addEventListener('DOMContentLoaded', loadGraphs())
+var topAlg
 
 // todo fix this to actually send the message data
 function getPrediction() {
@@ -81,6 +81,7 @@ function getTopFiveAlgorithms() {
 
             // JSON -> JS object
             replyObj = JSON.parse(replyString);
+            topAlg = replyObj;
 
             // put the algorithm names in their ranked order
             document.getElementById("alg1_name").innerHTML = "<b>" + replyObj.name[0] + "</b>";
@@ -142,6 +143,7 @@ function getTopFiveWords() {
 function initializeIndex() {
     getTopFiveAlgorithms();
     getTopFiveWords();
+    loadGraphs();
 }
 
 // when the Clear button is pressed, clear the message textarea
@@ -150,27 +152,54 @@ function clearIndex() {
 }
 
 function loadGraphs(){
-    var myChart = Highcharts.chart('other_visualizations', {
-        chart: {
-            type: 'bar'
-        },
-        title: {
-            text: 'Fruit Consumption'
-        },
-        xAxis: {
-            categories: ['Apples', 'Bananas', 'Oranges']
-        },
-        yAxis: {
-            title: {
-                text: 'Fruit eaten'
-            }
-        },
-        series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }]
-    });
+    var url = "http://localhost:8080"
+    var endpoint = "/getAlgorithms"
+    var topAlg
+
+    var http = new XMLHttpRequest();
+
+    http.open("GET", url + endpoint, true);
+
+    http.onreadystatechange = function () {
+        var DONE = 4;       // 4 means that the request is done
+        var OK = 200;       // 200 means a successful return
+
+        if (http.readyState == DONE && http.status == OK && http.responseText) {
+            // JSON string
+            replyString = http.responseText;
+
+            // JSON -> JS object
+            replyObj = JSON.parse(replyString);
+            
+            topAlg = replyObj;
+            console.log(topAlg)
+
+            var myChart = Highcharts.chart('other_visualizations', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Top Algorithms'
+                },
+                xAxis: {
+                    categories: [topAlg.name[0], topAlg.name[1], topAlg.name[2], topAlg.name[3], topAlg.name[4]]
+                },
+                yAxis: {
+                    title: {
+                        text: 'F1 Scores'
+                    }
+                },
+                series: [{
+                    name: 'Run1',
+                    data: [parseInt(topAlg.f1[0]), parseInt(topAlg.f1[1]), parseInt(topAlg.f1[2]), parseInt(topAlg.f1[3]), parseInt(topAlg.f1[4])]
+                }]
+            });
+
+        }
+    }
+
+    http.send();
+
+
+
 }
