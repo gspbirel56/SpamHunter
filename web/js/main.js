@@ -112,3 +112,7 @@ function initializeIndex() {
     getTopFiveAlgorithms();
     getTopFiveWords();
 }
+
+function clearIndex() {
+    document.getElementById("message").value = "";
+}
