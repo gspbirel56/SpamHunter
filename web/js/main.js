@@ -1,3 +1,4 @@
+
 function getPrediction() {
     var url = "http://localhost:8080"
     var endpoint = "/predict"
