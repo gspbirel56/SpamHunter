@@ -28,6 +28,19 @@ def predict():
     message = json["message"]
     return message # just for debugging, for now... TODO implement the ml code here for prediction
 
+# TODO hopefully it's obvious that these functions need to be implemented
+@app.route('/correctPrediction')
+def correctPrediction():
+    return "Yes, dear"
+
+@app.route('/getAlgorithms')
+def getTopFiveAlgorithms():
+    return "1, 2, 3, 4, and 5 are all NN"
+
+@app.route('/getWords')
+def getTopFiveWords():
+    return "Larry == spam"
+
 
 # Run the app!
 if __name__ == '__main__':
