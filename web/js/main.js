@@ -1,6 +1,4 @@
 
-var topAlg
-
 // todo fix this to actually send the message data
 function getPrediction() {
     var url = "http://localhost:8080"
@@ -66,6 +64,7 @@ function correctPrediction(correctLabel) {
 function getTopFiveAlgorithms() {
     var url = "http://localhost:8080"
     var endpoint = "/getAlgorithms"
+    var replyObj
 
     var http = new XMLHttpRequest();
 
@@ -81,7 +80,6 @@ function getTopFiveAlgorithms() {
 
             // JSON -> JS object
             replyObj = JSON.parse(replyString);
-            topAlg = replyObj;
 
             // put the algorithm names in their ranked order
             document.getElementById("alg1_name").innerHTML = "<b>" + replyObj.name[0] + "</b>";
@@ -96,9 +94,10 @@ function getTopFiveAlgorithms() {
             document.getElementById("alg3_f1").innerText = replyObj.f1[2];
             document.getElementById("alg4_f1").innerText = replyObj.f1[3];
             document.getElementById("alg5_f1").innerText = replyObj.f1[4];
+
+            loadGraphs(replyObj)
         }
     }
-
     http.send();
 
     // for debug purposes until the server communication is implemented
@@ -143,7 +142,7 @@ function getTopFiveWords() {
 function initializeIndex() {
     getTopFiveAlgorithms();
     getTopFiveWords();
-    loadGraphs();
+    //loadGraphs(topAlgs);
 }
 
 // when the Clear button is pressed, clear the message textarea
@@ -151,55 +150,30 @@ function clearIndex() {
     document.getElementById("message").value = "";
 }
 
-function loadGraphs(){
-    var url = "http://localhost:8080"
-    var endpoint = "/getAlgorithms"
-    var topAlg
+function loadGraphs(topAlgs){
 
-    var http = new XMLHttpRequest();
-
-    http.open("GET", url + endpoint, true);
-
-    http.onreadystatechange = function () {
-        var DONE = 4;       // 4 means that the request is done
-        var OK = 200;       // 200 means a successful return
-
-        if (http.readyState == DONE && http.status == OK && http.responseText) {
-            // JSON string
-            replyString = http.responseText;
-
-            // JSON -> JS object
-            replyObj = JSON.parse(replyString);
-            
-            topAlg = replyObj;
-            console.log(topAlg)
-
-            var myChart = Highcharts.chart('other_visualizations', {
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: 'Top Algorithms'
-                },
-                xAxis: {
-                    categories: [topAlg.name[0], topAlg.name[1], topAlg.name[2], topAlg.name[3], topAlg.name[4]]
-                },
-                yAxis: {
-                    title: {
-                        text: 'F1 Scores'
-                    }
-                },
-                series: [{
-                    name: 'Run1',
-                    data: [parseInt(topAlg.f1[0]), parseInt(topAlg.f1[1]), parseInt(topAlg.f1[2]), parseInt(topAlg.f1[3]), parseInt(topAlg.f1[4])]
-                }]
-            });
-
-        }
-    }
-
-    http.send();
-
-
-
+    var myChart = Highcharts.chart('other_visualizations', {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Top Algorithms'
+        },
+        xAxis: {
+            categories: [topAlgs.name[0], topAlgs.name[1], topAlgs.name[2], topAlgs.name[3], topAlgs.name[4]]
+        },
+        yAxis: {
+            title: {
+                text: 'F1 Scores'
+            }
+        },
+        series: [{
+            name: 'Run1',
+            data: [parseInt(topAlgs.f1[0]), parseInt(topAlgs.f1[1]), parseInt(topAlgs.f1[2]), parseInt(topAlgs.f1[3]), parseInt(topAlgs.f1[4])]
+        },
+        {
+            name: 'Run2',
+            data: [parseInt(topAlgs.f1[4]), parseInt(topAlgs.f1[3]), parseInt(topAlgs.f1[2]), parseInt(topAlgs.f1[1]), parseInt(topAlgs.f1[0])]
+        }]
+    });
 }
