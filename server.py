@@ -25,6 +25,7 @@ def get_script():
 @app.route('/predict', methods=["GET"])
 def predict():
     json = request.get_json()
+    print(json)
     message = json["message"]
     return message # just for debugging, for now... TODO integrate the code with ml.py to get a response
 
