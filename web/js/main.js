@@ -95,7 +95,7 @@ function getTopFiveAlgorithms() {
             document.getElementById("alg4_f1").innerText = replyObj.f1[3];
             document.getElementById("alg5_f1").innerText = replyObj.f1[4];
 
-            loadGraphs(replyObj)
+            loadAlgGraph(replyObj)
         }
     }
     http.send();
@@ -133,6 +133,9 @@ function getTopFiveWords() {
             document.getElementById("top3").innerText = replyObj.words[2];
             document.getElementById("top4").innerText = replyObj.words[3];
             document.getElementById("top5").innerText = replyObj.words[4];
+            
+            console.log(replyObj)
+            loadWordGraph(replyObj);
         }
     }
     http.send();
@@ -150,9 +153,9 @@ function clearIndex() {
     document.getElementById("message").value = "";
 }
 
-function loadGraphs(topAlgs){
+function loadAlgGraph(topAlgs){
 
-    var myChart = Highcharts.chart('other_visualizations', {
+    var algChart = Highcharts.chart('top_algorithms', {
         chart: {
             type: 'bar'
         },
@@ -174,6 +177,56 @@ function loadGraphs(topAlgs){
         {
             name: 'Run2',
             data: [parseInt(topAlgs.f1[4]), parseInt(topAlgs.f1[3]), parseInt(topAlgs.f1[2]), parseInt(topAlgs.f1[1]), parseInt(topAlgs.f1[0])]
+        }]
+    });
+}
+
+function loadWordGraph(topWords){
+
+    Highcharts.chart('top_words', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Top Words'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            name: 'Chance of spam',
+            colorByPoint: true,
+            data: [{
+                name: topWords.words[0],
+                y: 60.0,
+                sliced: true,
+                selected: true
+            }, {
+                name: topWords.words[1],
+                y: 20.0
+            }, {
+                name: topWords.words[2],
+                y: 10.0
+            }, {
+                name: topWords.words[3],
+                y: 5.0
+            }, {
+                name: topWords.words[4],
+                y: 5.0
+            }]
         }]
     });
 }
