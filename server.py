@@ -41,9 +41,16 @@ def correctPrediction():
 def getTopFiveAlgorithms():
     name = ["This (in use)", "Comes", "From", "The", "Server"]
     f1 = ["5", "4", "3", "2", "1"]
+    precision = ["1", "2", "3", "4", "5"]
+    recall = ["1", "2", "3", "4", "5"]
+    accuracy = ["1", "2", "3", "4", "5"]
+
     val = {
         "name": name,
-        "f1": f1
+        "f1": f1,
+        "precision": precision,
+        "recall": recall,
+        "accuracy": accuracy
     }
     return val
 
