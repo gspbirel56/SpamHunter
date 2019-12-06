@@ -6,31 +6,29 @@ function getPrediction() {
         message: "Hi"
       });
     
-    var url = "http://localhost:8080";
-    var endpoint = "/predict";
-
-    var http = new XMLHttpRequest();
-
-    http.open("GET", url + endpoint, true);
-
-    // set content header to turn a 500 error into a 400 error
-    http.setRequestHeader('Content-type', 'application/json');
-
-    http.onreadystatechange = function() {
-        var DONE = 4;       // 4 means that the request is done
-        var OK = 200;       // 200 means a successful return
-        if (http.readyState == DONE && http.status == OK && http.responseText) {
-            // JSON string
-            replyString = http.responseText;
-
-            // JSON -> JS obj
-            replyObj = JSON.parse(replyString);
-
-            // change the prediction label
-            document.getElementById("prediction").innerText = replyObj.prediction;  // signifies that we need a string called prediction from the backend
-        }
-    }
-    http.send(data);
+      var url = "http://localhost:8080"
+      var endpoint = "/predict"
+      var replyObj
+  
+      var http = new XMLHttpRequest();
+  
+      http.open("GET", url + endpoint, true);
+  
+      http.onreadystatechange = function () {
+          var DONE = 4;       // 4 means that the request is done
+          var OK = 200;       // 200 means a successful return
+  
+          if (http.readyState == DONE && http.status == OK && http.responseText) {
+              // JSON string
+              replyString = http.responseText;
+  
+              // JSON -> JS object
+              //replyObj = JSON.parse(replyString);
+              console.log(replyString)
+              
+          }
+      }
+      http.send();
 }
 
 // todo fix this to actually send the message data
