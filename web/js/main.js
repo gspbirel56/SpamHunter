@@ -3,42 +3,18 @@
 function getPrediction() {
 
     var data = JSON.stringify({
-        "message": "Hi"
+        message: "Hi"
       });
-      
-      var xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
-      
-      xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === 4) {
-          console.log(this.responseText);
-        }
-      });
-      
-      xhr.open("GET", "http://localhost:8080/predict");
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.setRequestHeader("User-Agent", "PostmanRuntime/7.19.0");
-      xhr.setRequestHeader("Accept", "*/*");
-      xhr.setRequestHeader("Cache-Control", "no-cache");
-      xhr.setRequestHeader("Postman-Token", "25701512-a7b7-46d3-b614-d82adfe63972,89b19c6f-e712-4c75-9485-f81c5d2b9d3c");
-      xhr.setRequestHeader("Host", "localhost:8080");
-      xhr.setRequestHeader("Accept-Encoding", "gzip, deflate");
-      xhr.setRequestHeader("Content-Length", "20");
-      xhr.setRequestHeader("Connection", "keep-alive");
-      xhr.setRequestHeader("cache-control", "no-cache");
-      
-      xhr.send(data);
-
-    /*
+    
     var url = "http://localhost:8080";
     var endpoint = "/predict";
 
     var http = new XMLHttpRequest();
-    var data = JSON.stringify({
-        "message": document.getElementById("message").value
-    });
 
     http.open("GET", url + endpoint, true);
+
+    // set content header to turn a 500 error into a 400 error
+    http.setRequestHeader('Content-type', 'application/json');
 
     http.onreadystatechange = function() {
         var DONE = 4;       // 4 means that the request is done
@@ -55,7 +31,6 @@ function getPrediction() {
         }
     }
     http.send(data);
-    */
 }
 
 // todo fix this to actually send the message data
