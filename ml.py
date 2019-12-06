@@ -5,14 +5,20 @@ from sklearn.linear_model import Perceptron, SGDClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
 from joblib import dump, load
+import os
 
 from warnings import simplefilter
 simplefilter(action='ignore')
 
-# preprocessing
+import preprocess
+
+# global variables
 X = []
 Y = []
-import preprocess
+pla = None
+sgc = None
+nn = None
+tree = None
 
 
 def printMetrics(y_actual, y_pred):
@@ -23,18 +29,18 @@ def printMetrics(y_actual, y_pred):
 
 
 def preprocessing():
-    #this function does nothing
+    global X, Y
     XYList = preprocess.loadXY()
     X = XYList[0]
     Y = XYList[1]
 
 
 def trainModels():
-    XYList = preprocess.loadXY()
-    X = XYList[0]
-    Y = XYList[1]
+    preprocessing()
     
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
+    
+    global pla, sgc, nn, tree
     
     print('\n==================================================\n')
     
@@ -122,31 +128,55 @@ def trainModels():
     print('\n==================================================\n')
 
 
-def testModels():
-    XYList = preprocess.loadXY()
-    X = XYList[0]
-    Y = XYList[1]
+def loadModels():
+    global pla, sgc, nn, tree
     
-    pla = load('pla.joblib')
+    if not os.path.isfile('pla.joblib') or not os.path.isfile('sgc.joblib') or not os.path.isfile('nn.joblib') or not os.path.isfile('tree.joblib'):
+        print('Training models...')
+        trainModels()
+    else:
+        print('Loading models from file...')
+        pla = load('pla.joblib')
+        sgc = load('sgc.joblib')
+        nn = load('nn.joblib')
+        tree = load('tree.joblib')
+
+
+def testModels():
+    if len(X) == 0:
+        preprocessing()
+    
+    if tree == None:
+        loadModels()
+    
     pred_y = pla.predict(X)
     print('Perceptron (all data):')
     printMetrics(Y, pred_y)
     
-    sgc = load('sgc.joblib')
     pred_y = sgc.predict(X)
     print('\nStochastic Gradient Descent (all data):')
     printMetrics(Y, pred_y)
     
-    nn = load('nn.joblib')
     pred_y = nn.predict(X)
     print('\nNeural Network (all data):')
     printMetrics(Y, pred_y)
     
-    tree = load('tree.joblib')
     pred_y = tree.predict(X)
     print('\nDecision Tree (all data):')
     printMetrics(Y, pred_y)
 
+#### not finished 
+def makePrediction(message):
+    if tree == None:
+        loadModels()
+    
+    pred_y = tree.predict([preprocess.extract(message)])
+    print(pred_y)
+    
+    if pred_y[0] == 1:
+        return 'spam'
+    else:
+        return 'ham'
 
 
 # declaring, training, fitting each algorithm

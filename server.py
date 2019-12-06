@@ -6,7 +6,11 @@ import ml
 
 # Flask import
 from flask import Flask, send_from_directory, request
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
+
+#import json
 
 # Endpoint to load index.html
 @app.route('/')
@@ -25,17 +29,21 @@ def get_script():
 @app.route('/predict', methods=["POST"])
 def predict():
     json = request.get_json()
+    #message = json.loads(request.get_json())
     print(json)
-    message = json["message"]
-    return message # just for debugging, for now... TODO integrate the code with ml.py to get a response
+    message = json['message']
+    #response = json.dumps({'prediction': 'spam'})
+    response = {'prediction': ml.makePrediction(message)}
+    
+    return response # just for debugging, for now... TODO integrate the code with ml.py to get a response
  
 # TODO hopefully it's obvious that these functions need to be implemented
 @app.route('/correctPrediction', methods=["POST"])
 def correctPrediction():
     json = request.get_json()
-    message = json["message"]
-    label = json["label"]
-    return label # just for debugging TODO integrate the code with ml.py to get a response
+    #message = json["message"]
+    #label = json["label"]
+    return json # just for debugging TODO integrate the code with ml.py to get a response
 
 @app.route('/getAlgorithms', methods=["GET"])
 def getTopFiveAlgorithms():

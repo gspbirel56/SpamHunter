@@ -2,33 +2,40 @@
 // todo fix this to actually send the message data
 function getPrediction() {
 
-    var data = JSON.stringify({
-        message: "Hi"
-      });
-    
-      var url = "http://localhost:8080"
-      var endpoint = "/predict"
-      var replyObj
-  
-      var http = new XMLHttpRequest();
-  
-      http.open("POST", url + endpoint, true);
-  
-      http.onreadystatechange = function () {
-          var DONE = 4;       // 4 means that the request is done
-          var OK = 200;       // 200 means a successful return
-  
-          if (http.readyState == DONE && http.status == OK && http.responseText) {
-              // JSON string
-              replyString = http.responseText;
-  
-              // JSON -> JS object
-              //replyObj = JSON.parse(replyString);
-              console.log(replyString)
-              
-          }
-      }
-      http.send(data);
+    if (document.getElementById("message").value != '')
+    {
+        var data = JSON.stringify({
+            "message": document.getElementById('message').value
+        });
+        console.log(data)
+
+        var url = "http://localhost:8080"
+        var endpoint = "/predict"
+        var replyObj
+
+        var http = new XMLHttpRequest();
+
+        http.open("POST", url + endpoint, true);
+        http.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+        http.onreadystatechange = function () {
+            var DONE = 4;       // 4 means that the request is done
+            var OK = 200;       // 200 means a successful return
+
+            if (http.readyState == DONE && http.status == OK && http.responseText) {
+                // JSON string
+                replyString = http.responseText;
+
+                // JSON -> JS object
+                replyObj = JSON.parse(replyString);
+                console.log(replyString)
+                document.getElementById('prediction').innerHTML = "Your message is predicted to be " + replyObj.prediction;
+                document.getElementById("hiddenButtons").style.visibility = "visible";
+            }
+        }
+
+        http.send(data);
+    }
 }
 
 // todo fix this to actually send the message data
@@ -44,6 +51,7 @@ function correctPrediction(correctLabel) {
     var endpoint = "/correctPrediction"
 
     var http = new XMLHttpRequest();
+    http.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
     http.open("GET", url + endpoint, true);
 
@@ -74,6 +82,7 @@ function getTopFiveAlgorithms() {
     var http = new XMLHttpRequest();
 
     http.open("GET", url + endpoint, true);
+    http.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
     http.onreadystatechange = function () {
         var DONE = 4;       // 4 means that the request is done
@@ -138,6 +147,7 @@ function getTopFiveWords() {
     var http = new XMLHttpRequest();
 
     http.open("GET", url + endpoint, true);
+    http.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
     http.onreadystatechange = function () {
         var DONE = 4;       // 4 means that the request is done
@@ -173,6 +183,7 @@ function initializeIndex() {
 // when the Clear button is pressed, clear the message textarea
 function clearIndex() {
     document.getElementById("message").value = "";
+    document.getElementById("hiddenButtons").style.visibility = "hidden";
 }
 
 function loadAlgGraph(topAlgs){
