@@ -22,7 +22,7 @@ def get_script():
     return send_from_directory('web/js', 'main.js', mimetype=doctype)
 
 # Return the prediction label to the frontend
-@app.route('/predict', methods=["GET"])
+@app.route('/predict', methods=["POST"])
 def predict():
     json = request.get_json()
     print(json)

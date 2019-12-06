@@ -12,7 +12,7 @@ function getPrediction() {
   
       var http = new XMLHttpRequest();
   
-      http.open("GET", url + endpoint, true);
+      http.open("POST", url + endpoint, true);
   
       http.onreadystatechange = function () {
           var DONE = 4;       // 4 means that the request is done
@@ -28,7 +28,7 @@ function getPrediction() {
               
           }
       }
-      http.send();
+      http.send(data);
 }
 
 // todo fix this to actually send the message data
