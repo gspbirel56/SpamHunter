@@ -29,7 +29,7 @@ function getPrediction() {
                 // JSON -> JS object
                 replyObj = JSON.parse(replyString);
                 console.log(replyString)
-                document.getElementById('prediction').innerHTML = "Your message is predicted to be " + replyObj.prediction;
+                document.getElementById('prediction').innerHTML = replyObj.prediction;
                 document.getElementById("hiddenButtons").style.visibility = "visible";
             }
         }

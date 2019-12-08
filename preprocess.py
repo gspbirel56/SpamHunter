@@ -94,8 +94,7 @@ def extract(message):
             features = load('features.joblib')
         else:
             print('Defining features...')
-            data = read_data()
-            define_features(data)
+            loadXY(True)
     
     vector = [0] * len(features)
     #clean text
@@ -132,18 +131,18 @@ def prepare(data):
         #add feature vector to matrix for each message
         matrix.append(extract(sample))
     
-    #label each sample - ham = -1, spam = +1
+    #label each sample - ham = 0, spam = 1
     target = np.ones(len(labels), dtype=int)
     for i in range(len(labels)):
         if labels[i] == 'ham':
-            target[i] = -1
+            target[i] = 0
     
     return np.array(matrix), target
 
 
 # for API
 def loadXY(refresh_data=False):
-    if not os.path.isfile('X.joblib') or not os.path.isfile('Y.joblib') or refresh_data:
+    if not os.path.isfile('X0.joblib') or not os.path.isfile('X1.joblib') or not os.path.isfile('Y.joblib') or refresh_data:
         data = read_data()
         
         #extract features from training data
@@ -151,10 +150,11 @@ def loadXY(refresh_data=False):
         
         #create feature matrix for training and testing data
         X, Y = prepare(data)
-        dump(X, 'X.joblib')
+        dump(X[:20000, :], 'X0.joblib')
+        dump(X[20000:, :], 'X1.joblib')
         dump(Y, 'Y.joblib')        
         return X, Y
     else :
-        X = load('X.joblib')
+        X = np.concatenate((load('X0.joblib'), load('X1.joblib')))
         Y = load('Y.joblib')
         return X, Y
