@@ -55,8 +55,6 @@ def getTopAlgorithms():
     precision = ["1", "2", "3", "4", "5"]
     recall = ["1", "2", "3", "4", "5"]
     accuracy = ["1", "2", "3", "4", "5"]
-    
-    name, f1, precision, recall, accuracy = ml.getPerformanceMetrics()
 
     val = {
         "name": name,
@@ -71,6 +69,7 @@ def getTopAlgorithms():
 @app.route('/getWords', methods=["GET"])
 def getTopFiveWords():
     word = ["Larry", "Schultheis", "Larry", "Schultheis", "Larry"]
+    
     val = {
         "words": word
     }

@@ -229,10 +229,7 @@ def switchCurrentAlgorithm():
     pass
 
 def getPerformanceMetrics():
-    if len(X) == 0:
-        preprocessing()
-    
-    if tree == None:
-        loadModels()
+    pass
 
-    
+def getSampleMessages():
+    pass
