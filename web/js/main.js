@@ -1,5 +1,3 @@
-$(document).ready( function () {
-} );
 
 function getPrediction() {
 
@@ -143,7 +141,7 @@ function getTopAlgorithms() {
 
             $('#algsTable').DataTable();
 
-            // loadAlgGraph(replyObj)
+            loadAlgGraph(replyObj)
         }
     }
     http.send();
@@ -204,7 +202,7 @@ function clearIndex() {
 }
 
 function loadAlgGraph(topAlgs){
-
+    console.log(topAlgs)
     var algChart = Highcharts.chart('top_algorithms', {
         chart: {
             type: 'bar'
@@ -213,7 +211,7 @@ function loadAlgGraph(topAlgs){
             text: 'Top Algorithms'
         },
         xAxis: {
-            categories: [topAlgs.name[0], topAlgs.name[1], topAlgs.name[2], topAlgs.name[3], topAlgs.name[4]]
+            categories: [topAlgs.name[0], topAlgs.name[1], topAlgs.name[2], topAlgs.name[3]]
         },
         yAxis: {
             title: {
@@ -222,12 +220,14 @@ function loadAlgGraph(topAlgs){
         },
         series: [{
             name: 'Run1',
-            data: [parseInt(topAlgs.f1[0]), parseInt(topAlgs.f1[1]), parseInt(topAlgs.f1[2]), parseInt(topAlgs.f1[3]), parseInt(topAlgs.f1[4])]
-        },
-        {
-            name: 'Run2',
-            data: [parseInt(topAlgs.f1[4]), parseInt(topAlgs.f1[3]), parseInt(topAlgs.f1[2]), parseInt(topAlgs.f1[1]), parseInt(topAlgs.f1[0])]
-        }]
+            data: [topAlgs.f1[0], topAlgs.f1[1], topAlgs.f1[2], topAlgs.f1[3]]
+        }
+        //,
+        // {
+        //     name: 'Run2',
+        //     data: [parseInt(topAlgs.f1[4]), parseInt(topAlgs.f1[3]), parseInt(topAlgs.f1[2]), parseInt(topAlgs.f1[1]), parseInt(topAlgs.f1[0])]
+        // }
+    ]
     });
 }
 
