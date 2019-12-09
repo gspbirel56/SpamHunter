@@ -80,6 +80,11 @@ def getTopFiveWords():
     return val
 
 
+@app.route('/getConfusionMatrix', methods=["GET"])
+def getConfusionMatrix():
+    return ml.getConfusionMatrix();
+
+
 # Run the app!
 if __name__ == '__main__':
     app.run(port = 8080)

@@ -1,5 +1,5 @@
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import Perceptron, SGDClassifier
 from sklearn.neural_network import MLPClassifier
@@ -259,6 +259,21 @@ def getPerformanceMetrics():
     # f1 = f1_score(y_actual, y_pred, average='macro')
     
     return accuracy, precision, recall, f1
+
+
+def getConfusionMatrix():
+    if len(X) == 0:
+        preprocessing()
+    
+    if tree == None:
+        loadModels()
+    
+    results = {'Perceptron': (confusion_matrix(Y, pla.predict(X)) / len(Y)).tolist(),
+               'Stochastic Gradient Descent': (confusion_matrix(Y, sgd.predict(X)) / len(Y)).tolist(),
+               'Neural Network': (confusion_matrix(Y, nn.predict(X)) / len(Y)).tolist(),
+               'Decision Tree': (confusion_matrix(Y, tree.predict(X)) / len(Y)).tolist()}
+    return results
+
 
 # partial fit the new prediction data to each algorithm
 def partialFitNewData(message, label):
