@@ -1,7 +1,8 @@
 
-// todo fix this to actually send the message data
+
 function getPrediction() {
 
+    // send the request, get the prediction, etc. etc. etc...
     if (document.getElementById("message").value != '')
     {
         var data = JSON.stringify({
@@ -30,7 +31,11 @@ function getPrediction() {
                 replyObj = JSON.parse(replyString);
                 console.log(replyString)
                 document.getElementById('prediction').innerHTML = replyObj.prediction;
+                // make the hidden buttons visible
                 document.getElementById("hiddenButtons").style.visibility = "visible";
+                // enable the correctPrediction buttons ("This message is actually a ____!")
+                document.getElementById("report_ham").disabled = false
+                document.getElementById("report_spam").disabled = false
             }
         }
 
@@ -38,8 +43,10 @@ function getPrediction() {
     }
 }
 
-// todo fix this to actually send the message data
+
 function correctPrediction(correctLabel) {
+
+    // send the request to the ml
     if (document.getElementById("message").value != '')
     {
         var data = JSON.stringify({
@@ -68,6 +75,10 @@ function correctPrediction(correctLabel) {
                 // JSON -> JS object
                 replyObj = JSON.parse(replyString);
                 console.log(replyString)
+
+                // disable the correctPrediction buttons ("This message is actually a ____!")
+                document.getElementById("report_ham").disabled = true
+                document.getElementById("report_spam").disabled = true
             }
         }
 
