@@ -93,10 +93,8 @@ function getTopAlgorithms() {
     var replyObj
 
     var http = new XMLHttpRequest();
-
     http.open("GET", url + endpoint, true);
     http.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-
     http.onreadystatechange = function () {
         var DONE = 4;       // 4 means that the request is done
         var OK = 200;       // 200 means a successful return

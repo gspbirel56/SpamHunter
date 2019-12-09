@@ -56,9 +56,26 @@ def getTopAlgorithms():
     # recall = ["1", "2", "3", "4", "5"]
     # accuracy = ["1", "2", "3", "4", "5"]
     
-    name = "Perceptron", "Stochastic Gradient Descent", "Neural Network", "Decision Tree"
-    accuracy, precision, recall, f1 = ml.getPerformanceMetrics()
+    name = ["Perceptron", "Stochastic Gradient Descent", "Neural Network", "Decision Tree"]
+    # accuracy, precision, recall, f1 = ml.getPerformanceMetrics()
+    result = ml.getPerformanceMetrics()
+    print(result)
+    accuracy = result[0]
+    precision = result[1]
+    recall = result[2]
+    f1 = result[3]
+    # print(accuracy)
+    # print(precision)
 
+    # print(recall)
+    # print(f1)
+
+    # name = "test"
+    # f1 = "test"
+    # precision = "test"
+    # recall = "test"
+    # accuracy = "test"
+    
     val = {
         "name": name,
         "f1": f1,
@@ -66,6 +83,8 @@ def getTopAlgorithms():
         "recall": recall,
         "accuracy": accuracy
     }
+    
+
     return val
 
 # TODO make this get the actual top feature words
