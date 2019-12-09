@@ -40,36 +40,38 @@ function getPrediction() {
 
 // todo fix this to actually send the message data
 function correctPrediction(correctLabel) {
-    
+    if (document.getElementById("message").value != '')
+    {
+        var data = JSON.stringify({
+            "message": document.getElementById('message').value,
+            label: correctLabel
+        });
+        console.log(data)
 
-    // debug
-    var message = document.getElementById('message').value;
-    console.log(message + " is " + correctLabel);
+        var url = "http://localhost:8080"
+        var endpoint = "/correctPrediction"
+        var replyObj
 
-    // starter code
-    var url = "http://localhost:8080"
-    var endpoint = "/correctPrediction"
+        var http = new XMLHttpRequest();
 
-    var http = new XMLHttpRequest();
-    http.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        http.open("POST", url + endpoint, true);
+        http.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
-    http.open("GET", url + endpoint, true);
+        http.onreadystatechange = function () {
+            var DONE = 4;       // 4 means that the request is done
+            var OK = 200;       // 200 means a successful return
 
-    http.onreadystatechange = function() {
-        var DONE = 4;       // 4 means that the request is done
-        var OK = 200;       // 200 means a successful return
-        if (http.readyState == DONE && http.status == OK && http.responseText) {
-            // JSON string
-            replyString = http.responseText;
+            if (http.readyState == DONE && http.status == OK && http.responseText) {
+                // JSON string
+                replyString = http.responseText;
 
-            // JSON -> JS obj
-            replyObj = JSON.parse(replyString);
-
-            document.getElementById("prediction").innerText = replyObj.prediction;  // signifies that we need a string called prediction from the backend
+                // JSON -> JS object
+                replyObj = JSON.parse(replyString);
+                console.log(replyString)
+            }
         }
-        else {
-            console.log("Error correcting prediction from the backend server. (Is it running?)");
-        }
+
+        http.send(data);
     }
 }
 

@@ -25,7 +25,7 @@ def get_script():
     doctype = 'text/js'
     return send_from_directory('web/js', 'main.js', mimetype=doctype)
 
-# Return the prediction label to the frontend
+# Endpoint to return the prediction label to the frontend
 @app.route('/predict', methods=["POST"])
 def predict():
     json = request.get_json()
@@ -34,17 +34,19 @@ def predict():
     message = json['message']
     #response = json.dumps({'prediction': 'spam'})
     response = {'prediction': ml.makePrediction(message)}
-    
-    return response # just for debugging, for now... TODO integrate the code with ml.py to get a response
- 
-# TODO hopefully it's obvious that these functions need to be implemented
+    return response
+
+# TODO implement the partial fitting portion of the code here
+# Endpoint to allow user to correct the prediction and partial fit with each algorithm
 @app.route('/correctPrediction', methods=["POST"])
 def correctPrediction():
     json = request.get_json()
-    #message = json["message"]
-    #label = json["label"]
+    # message = json["message"]
+    # label = json["label"]
+    print(json)
     return json # just for debugging TODO integrate the code with ml.py to get a response
 
+# TODO make this get the actual ranking of algorithms
 @app.route('/getAlgorithms', methods=["GET"])
 def getTopFiveAlgorithms():
     name = ["This (in use)", "Comes", "From", "The", "Server"]
@@ -62,6 +64,7 @@ def getTopFiveAlgorithms():
     }
     return val
 
+# TODO make this get the actual top feature words
 @app.route('/getWords', methods=["GET"])
 def getTopFiveWords():
     word = ["Larry", "Schultheis", "Larry", "Schultheis", "Larry"]
