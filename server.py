@@ -50,12 +50,7 @@ def correctPrediction():
 # TODO make this get the actual ranking of algorithms
 @app.route('/getAlgorithms', methods=["GET"])
 def getTopAlgorithms():
-    # name = ["This (in use)", "Comes", "From", "The", "Server"]
-    # f1 = ["5", "4", "3", "2", "1"]
-    # precision = ["1", "2", "3", "4", "5"]
-    # recall = ["1", "2", "3", "4", "5"]
-    # accuracy = ["1", "2", "3", "4", "5"]
-    
+
     name = ["Perceptron", "Stochastic Gradient Descent", "Neural Network", "Decision Tree"]
     # accuracy, precision, recall, f1 = ml.getPerformanceMetrics()
     result = ml.getPerformanceMetrics()
@@ -63,18 +58,7 @@ def getTopAlgorithms():
     precision = result[1]
     recall = result[2]
     f1 = result[3]
-    # print(accuracy)
-    # print(precision)
 
-    # print(recall)
-    # print(f1)
-
-    # name = "test"
-    # f1 = "test"
-    # precision = "test"
-    # recall = "test"
-    # accuracy = "test"
-    
     val = {
         "name": name,
         "f1": f1,
