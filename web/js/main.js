@@ -1,4 +1,5 @@
-
+$(document).ready( function () {
+} );
 
 function getPrediction() {
 
@@ -108,35 +109,39 @@ function getTopAlgorithms() {
             console.log(replyObj)
             // put the algorithm names in their ranked order
             // document.getElementById("alg1_name").innerHTML = "<b>" + replyObj.name[0] + "</b>";
-            // document.getElementById("alg2_name").innerText = replyObj.name[1];
-            // document.getElementById("alg3_name").innerText = replyObj.name[2];
-            // document.getElementById("alg4_name").innerText = replyObj.name[3];
-            // document.getElementById("alg5_name").innerText = replyObj.name[4];
+            document.getElementById("alg1_name").innerText = replyObj.name[0];
+            document.getElementById("alg2_name").innerText = replyObj.name[1];
+            document.getElementById("alg3_name").innerText = replyObj.name[2];
+            document.getElementById("alg4_name").innerText = replyObj.name[3];
 
             // // put the algorithms' F1 scores in their ranked order
             // document.getElementById("alg1_f1").innerHTML = "<b>" + replyObj.f1[0] + "</b>";
-            // document.getElementById("alg2_f1").innerText = replyObj.f1[1];
-            // document.getElementById("alg3_f1").innerText = replyObj.f1[2];
-            // document.getElementById("alg4_f1").innerText = replyObj.f1[3];
-            // document.getElementById("alg5_f1").innerText = replyObj.f1[4];
+            document.getElementById("alg1_f1").innerText = replyObj.f1[0];
+            document.getElementById("alg2_f1").innerText = replyObj.f1[1];
+            document.getElementById("alg3_f1").innerText = replyObj.f1[2];
+            document.getElementById("alg4_f1").innerText = replyObj.f1[3];
+
+
 
             // document.getElementById("alg1_acc").innerHTML = "<b>" + replyObj.accuracy[0] + "</b>";
-            // document.getElementById("alg2_acc").innerText = replyObj.accuracy[1];
-            // document.getElementById("alg3_acc").innerText = replyObj.accuracy[2];
-            // document.getElementById("alg4_acc").innerText = replyObj.accuracy[3];
-            // document.getElementById("alg5_acc").innerText = replyObj.accuracy[4];
+            document.getElementById("alg1_acc").innerText = replyObj.accuracy[0];
+            document.getElementById("alg2_acc").innerText = replyObj.accuracy[1];
+            document.getElementById("alg3_acc").innerText = replyObj.accuracy[2];
+            document.getElementById("alg4_acc").innerText = replyObj.accuracy[3];
 
             // document.getElementById("alg1_precision").innerHTML = "<b>" + replyObj.precision[0] + "</b>";
-            // document.getElementById("alg2_precision").innerText = replyObj.precision[1];
-            // document.getElementById("alg3_precision").innerText = replyObj.precision[2];
-            // document.getElementById("alg4_precision").innerText = replyObj.precision[3];
-            // document.getElementById("alg5_precision").innerText = replyObj.precision[4];
+            document.getElementById("alg1_precision").innerText = replyObj.precision[0];
+            document.getElementById("alg2_precision").innerText = replyObj.precision[1];
+            document.getElementById("alg3_precision").innerText = replyObj.precision[2];
+            document.getElementById("alg4_precision").innerText = replyObj.precision[3];
 
             // document.getElementById("alg1_recall").innerHTML = "<b>" + replyObj.recall[0] + "</b>";
-            // document.getElementById("alg2_recall").innerText = replyObj.recall[1];
-            // document.getElementById("alg3_recall").innerText = replyObj.recall[2];
-            // document.getElementById("alg4_recall").innerText = replyObj.recall[3];
-            // document.getElementById("alg5_recall").innerText = replyObj.recall[4];                        
+            document.getElementById("alg1_recall").innerText = replyObj.recall[0];
+            document.getElementById("alg2_recall").innerText = replyObj.recall[1];
+            document.getElementById("alg3_recall").innerText = replyObj.recall[2];
+            document.getElementById("alg4_recall").innerText = replyObj.recall[3];                        
+
+            $('#algsTable').DataTable();
 
             // loadAlgGraph(replyObj)
         }

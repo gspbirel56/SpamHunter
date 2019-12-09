@@ -40,7 +40,7 @@
         <div id="top_algorithm">
             <p>Algorithm currently in use: </p><p name="algorithmInUse"></p>
             <br>
-            <table class="table table-bordered table-hover" style="width: 75%;">
+            <table id="algsTable" class="table table-bordered table-hover">
                 <thead class="thead-dark">
                     <tr>
                         <th>Algorithm Name</th>
@@ -53,41 +53,35 @@
 
                 <tbody>
                     <tr>
-                        <td id="alg1_name"><b>Neural Network (in use)</b></td>
-                        <td id="alg1_f1"><b>1.0</b></td>
+                        <td id="alg1_name"></td>
+                        <td id="alg1_f1"></td>
                         <td id="alg1_recall"></td>
                         <td id="alg1_acc"></td>
                         <td id="alg1_precision"></td>
 
                     </tr>
                     <tr>
-                        <td id="alg2_name">Neural Network</td>
-                        <td id="alg2_f1">1.0</td>
+                        <td id="alg2_name"></td>
+                        <td id="alg2_f1"></td>
                         <td id="alg2_recall"></td>
                         <td id="alg2_acc"></td>
                         <td id="alg2_precision"></td>
                     </tr>
                     <tr>
-                        <td id="alg3_name">Neural Network</td>
-                        <td id="alg3_f1">1.0</td>
+                        <td id="alg3_name"></td>
+                        <td id="alg3_f1"></td>
                         <td id="alg3_recall"></td>
                         <td id="alg3_acc"></td>
                         <td id="alg3_precision"></td>
                     </tr>
                     <tr>
-                        <td id="alg4_name">Neural Network</td>
-                        <td id="alg4_f1">1.0</td>
+                        <td id="alg4_name"></td>
+                        <td id="alg4_f1"></td>
                         <td id="alg4_recall"></td>
                         <td id="alg4_acc"></td>
                         <td id="alg4_precision"></td>
                     </tr>
-                    <tr>
-                        <td id="alg5_name">Neural Network</td>
-                        <td id="alg5_f1">1.0</td>
-                        <td id="alg5_recall"></td>
-                        <td id="alg5_acc"></td>
-                        <td id="alg5_precision"></td>
-                    </tr>
+
                 </tbody>
 
             </table>
@@ -123,6 +117,15 @@
 
 <!-- Visualization import -->
 <script src="https://code.highcharts.com/highcharts.js"></script>
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
 
 <!-- ML Script -->
 <script src="js/main.js"></script>
