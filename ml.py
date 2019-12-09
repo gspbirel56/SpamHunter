@@ -21,52 +21,35 @@ sgd = None
 nn = None
 tree = None
 
-def getPerformanceMetrics():
+def preprocessing():
+    global X, Y
+    XYList = preprocess.loadXY()
+    X = XYList[0]
+    Y = XYList[1]
+
+
+def testModels():
     if len(X) == 0:
         preprocessing()
     
     if tree == None:
         loadModels()
-        
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
-
-    pla_yPred = pla.predict(X_test)
-    sgd_yPred = sgd.predict(X_test)
-    nn_yPred = nn.predict(X_test)
-    tree_yPred = tree.predict(X_test)
     
-    accuracy = [accuracy_score(Y_test, pla_yPred),
-                   accuracy_score(Y_test, sgd_yPred),
-                   accuracy_score(Y_test, nn_yPred),
-                   accuracy_score(Y_test, tree_yPred)]
+    pred_y = pla.predict(X)
+    print('Perceptron (all data):')
+    printMetrics(Y, pred_y)
     
-    precision = [precision_score(Y_test, pla_yPred, average='macro'),
-                   precision_score(Y_test, sgd_yPred, average='macro'),
-                   precision_score(Y_test, nn_yPred, average='macro'),
-                   precision_score(Y_test, tree_yPred, average='macro')]
-        
-    recall = [recall_score(Y_test, pla_yPred, average='macro'),
-               recall_score(Y_test, sgd_yPred, average='macro'),
-               recall_score(Y_test, nn_yPred, average='macro'),
-               recall_score(Y_test, tree_yPred, average='macro')]
+    pred_y = sgd.predict(X)
+    print('\nStochastic Gradient Descent (all data):')
+    printMetrics(Y, pred_y)
     
-    f1 = [recall_score(Y_test, pla_yPred, average='macro'),
-           recall_score(Y_test, sgd_yPred, average='macro'),
-           recall_score(Y_test, nn_yPred, average='macro'),
-           recall_score(Y_test, tree_yPred, average='macro')]
+    pred_y = nn.predict(X)
+    print('\nNeural Network (all data):')
+    printMetrics(Y, pred_y)
     
-    # accuracy = accuracy_score(y_actual, y_pred)
-    # precision = precision_score(y_actual, y_pred, average='macro')
-    # recall = recall_score(y_actual, y_pred, average='macro')
-    # f1 = f1_score(y_actual, y_pred, average='macro')
-    
-    return accuracy, precision, recall, f1
-
-def printMetrics(y_actual, y_pred):
-    print('Accuracy: ', accuracy_score(y_actual, y_pred))
-    print('Precision:', precision_score(y_actual, y_pred, average='macro'))
-    print('Recall:   ', recall_score(y_actual, y_pred, average='macro'))
-    print('F1:       ', f1_score(y_actual, y_pred, average='macro'))
+    pred_y = tree.predict(X)
+    print('\nDecision Tree (all data):')
+    printMetrics(Y, pred_y)
 
 
 def binarize(value):
@@ -84,11 +67,11 @@ def binarize_list(data):
     return result
 
 
-def preprocessing():
-    global X, Y
-    XYList = preprocess.loadXY()
-    X = XYList[0]
-    Y = XYList[1]
+def printMetrics(y_actual, y_pred):
+    print('Accuracy: ', accuracy_score(y_actual, y_pred))
+    print('Precision:', precision_score(y_actual, y_pred, average='macro'))
+    print('Recall:   ', recall_score(y_actual, y_pred, average='macro'))
+    print('F1:       ', f1_score(y_actual, y_pred, average='macro'))
 
 
 def trainModels():
@@ -120,7 +103,8 @@ def trainModels():
     print('\nPerceptron (testing data):')
     printMetrics(Y_test, pred_y_test)
     
-    dump(pla.best_estimator_, 'pla.joblib')
+    pla = pla.best_estimator_
+    dump(pla, 'pla.joblib')
     print('==================================================\n\n')
     
     
@@ -146,7 +130,8 @@ def trainModels():
     print('\nSGD (testing data):')
     printMetrics(Y_test, pred_y_test)
     
-    dump(sgd.best_estimator_, 'sgd.joblib')
+    sgd = sgd.best_estimator_
+    dump(sgd, 'sgd.joblib')
     print('==================================================\n\n')
     
     
@@ -172,7 +157,8 @@ def trainModels():
     print('\nNeural Network (testing data):')
     printMetrics(Y_test, pred_y_test)
     
-    dump(nn.best_estimator_, 'nn.joblib')
+    nn = nn.best_estimator_
+    dump(nn, 'nn.joblib')
     print('==================================================\n\n')
     
     
@@ -208,30 +194,6 @@ def loadModels():
         tree = load('tree.joblib')
 
 
-def testModels():
-    if len(X) == 0:
-        preprocessing()
-    
-    if tree == None:
-        loadModels()
-    
-    pred_y = pla.predict(X)
-    print('Perceptron (all data):')
-    printMetrics(Y, pred_y)
-    
-    pred_y = sgd.predict(X)
-    print('\nStochastic Gradient Descent (all data):')
-    printMetrics(Y, pred_y)
-    
-    pred_y = nn.predict(X)
-    print('\nNeural Network (all data):')
-    printMetrics(Y, pred_y)
-    
-    pred_y = tree.predict(X)
-    print('\nDecision Tree (all data):')
-    printMetrics(Y, pred_y)
-
-#### not finished 
 def makePrediction(message):
     if tree == None:
         loadModels()
@@ -257,19 +219,84 @@ def makePrediction(message):
     return str(pred_y.count(1)) + ' out of 4 models predict this message to be spam.'
 
 
-# declaring, training, fitting each algorithm
-def mlinit():
-    pass
+def getPerformanceMetrics():
+    if len(X) == 0:
+        preprocessing()
+    
+    if tree == None:
+        loadModels()
+        
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
+
+    pla_yPred = pla.predict(X_test)
+    sgd_yPred = sgd.predict(X_test)
+    nn_yPred = nn.predict(X_test)
+    tree_yPred = tree.predict(X_test)
+    
+    accuracy = [accuracy_score(Y_test, pla_yPred),
+                   accuracy_score(Y_test, sgd_yPred),
+                   accuracy_score(Y_test, nn_yPred),
+                   accuracy_score(Y_test, tree_yPred)]
+    
+    precision = [precision_score(Y_test, pla_yPred, average='macro'),
+                   precision_score(Y_test, sgd_yPred, average='macro'),
+                   precision_score(Y_test, nn_yPred, average='macro'),
+                   precision_score(Y_test, tree_yPred, average='macro')]
+        
+    recall = [recall_score(Y_test, pla_yPred, average='macro'),
+               recall_score(Y_test, sgd_yPred, average='macro'),
+               recall_score(Y_test, nn_yPred, average='macro'),
+               recall_score(Y_test, tree_yPred, average='macro')]
+    
+    f1 = [f1_score(Y_test, pla_yPred, average='macro'),
+           f1_score(Y_test, sgd_yPred, average='macro'),
+           f1_score(Y_test, nn_yPred, average='macro'),
+           f1_score(Y_test, tree_yPred, average='macro')]
+    
+    # accuracy = accuracy_score(y_actual, y_pred)
+    # precision = precision_score(y_actual, y_pred, average='macro')
+    # recall = recall_score(y_actual, y_pred, average='macro')
+    # f1 = f1_score(y_actual, y_pred, average='macro')
+    
+    return accuracy, precision, recall, f1
 
 # partial fit the new prediction data to each algorithm
 def partialFitNewData(message, label):
-    pass
+    before = getPerformanceMetrics()
+    global pla, sgd, nn, tree
+    
+    x_new = [preprocess.extract(message)]
+    y_new = [0 if label == 'ham' else 1]
+    
+    print('Updating Perceptron Model...')
+    pla.partial_fit(x_new, y_new)
+    #dump(pla, 'pla.joblib')
+    
+    print('Updating Stochastic Gradient Descent Model...')
+    sgd.partial_fit(x_new, y_new)
+    #dump(sgd, 'sgd.joblib')
+    
+    print('Updating Neural Network...')
+    nn.partial_fit(x_new, y_new)
+    #dump(nn, 'nn.joblib')
+    
+    print('Retraining Decision Tree...')
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
+    tree = DecisionTreeClassifier()
+    tree.fit(np.concatenate((X_train, x_new), axis=0), np.concatenate((Y_train, y_new), axis=0))
+    #dump(tree, 'tree.joblib')
+    
+    after = getPerformanceMetrics()
+    print(np.subtract(after, before))
+    return 'Models updated successfully'
 
 def switchCurrentAlgorithm():
     pass
 
-# def getPerformanceMetrics():
-#     pass
-
 def getSampleMessages():
     pass
+
+# declaring, training, fitting each algorithm
+def mlinit():
+    preprocessing()
+    loadModels()

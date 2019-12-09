@@ -59,7 +59,6 @@ def getTopAlgorithms():
     name = ["Perceptron", "Stochastic Gradient Descent", "Neural Network", "Decision Tree"]
     # accuracy, precision, recall, f1 = ml.getPerformanceMetrics()
     result = ml.getPerformanceMetrics()
-    print(result)
     accuracy = result[0]
     precision = result[1]
     recall = result[2]
@@ -83,7 +82,6 @@ def getTopAlgorithms():
         "recall": recall,
         "accuracy": accuracy
     }
-    
 
     return val
 
@@ -101,5 +99,4 @@ def getTopFiveWords():
 # Run the app!
 if __name__ == '__main__':
     app.run(port = 8080)
-    ml.preprocessing()
     ml.mlinit()
