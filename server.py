@@ -41,9 +41,10 @@ def predict():
 @app.route('/correctPrediction', methods=["POST"])
 def correctPrediction():
     json = request.get_json()
-    # message = json["message"]
-    # label = json["label"]
+    message = json["message"]
+    label = json["label"]
     print(json)
+    response = {'response': ml.partialFitNewData(message, label)}
     return json # just for debugging TODO integrate the code with ml.py to get a response
 
 # TODO make this get the actual ranking of algorithms

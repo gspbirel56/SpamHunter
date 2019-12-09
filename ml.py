@@ -221,7 +221,8 @@ def makePrediction(message):
 def mlinit():
     pass
 
-def partialFitNewData():
+# partial fit the new prediction data to each algorithm
+def partialFitNewData(message, label):
     pass
 
 def switchCurrentAlgorithm():
