@@ -87,7 +87,7 @@ function correctPrediction(correctLabel) {
 }
 
 // todo get these actual from ml.py
-function getTopFiveAlgorithms() {
+function getTopAlgorithms() {
     var url = "http://localhost:8080"
     var endpoint = "/getAlgorithms"
     var replyObj
@@ -189,7 +189,7 @@ function getTopFiveWords() {
 
 // called on index.html load: gets the top 5 algorithms and the top 5 words from server.py
 function initializeIndex() {
-    getTopFiveAlgorithms();
+    getTopAlgorithms();
     getTopFiveWords();
 }
 
@@ -197,6 +197,7 @@ function initializeIndex() {
 function clearIndex() {
     document.getElementById("message").value = "";
     document.getElementById("hiddenButtons").style.visibility = "hidden";
+    document.getElementById("prediction").innerText = ""
 }
 
 function loadAlgGraph(topAlgs){

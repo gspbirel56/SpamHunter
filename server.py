@@ -49,7 +49,7 @@ def correctPrediction():
 
 # TODO make this get the actual ranking of algorithms
 @app.route('/getAlgorithms', methods=["GET"])
-def getTopFiveAlgorithms():
+def getTopAlgorithms():
     name = ["This (in use)", "Comes", "From", "The", "Server"]
     f1 = ["5", "4", "3", "2", "1"]
     precision = ["1", "2", "3", "4", "5"]
