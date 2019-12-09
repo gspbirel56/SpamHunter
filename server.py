@@ -72,7 +72,7 @@ def getTopAlgorithms():
 # TODO make this get the actual top feature words
 @app.route('/getWords', methods=["GET"])
 def getTopFiveWords():
-    word = ["Larry", "Schultheis", "Larry", "Schultheis", "Larry"]
+    word = ml.topFive()
     
     val = {
         "words": word

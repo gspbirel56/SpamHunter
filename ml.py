@@ -290,6 +290,12 @@ def partialFitNewData(message, label):
     print(np.subtract(after, before))
     return 'Models updated successfully'
 
+
+def topFive():
+    features = load('features.joblib')
+    return features[:5]
+
+
 def switchCurrentAlgorithm():
     pass
 
