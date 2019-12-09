@@ -154,7 +154,7 @@ function getTopAlgorithms() {
 }
 
 // todo get actual values from ml.py
-function getSampleMessages() {
+function getTopFiveWords() {
     var url = "http://localhost:8080"
     var endpoint = "/getWords"
 
@@ -191,7 +191,7 @@ function getSampleMessages() {
 // called on index.html load: gets the top 5 algorithms and the top 5 words from server.py
 function initializeIndex() {
     getTopAlgorithms();
-    getSampleMessages();
+    getTopFiveWords();
 }
 
 // when the Clear button is pressed, clear the message textarea
