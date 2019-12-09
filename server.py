@@ -45,7 +45,7 @@ def correctPrediction():
     label = json["label"]
     print(json)
     response = {'response': ml.partialFitNewData(message, label)}
-    return json # just for debugging TODO integrate the code with ml.py to get a response
+    return response
 
 # TODO make this get the actual ranking of algorithms
 @app.route('/getAlgorithms', methods=["GET"])
@@ -55,6 +55,8 @@ def getTopAlgorithms():
     precision = ["1", "2", "3", "4", "5"]
     recall = ["1", "2", "3", "4", "5"]
     accuracy = ["1", "2", "3", "4", "5"]
+    
+    name, f1, precision, recall, accuracy = ml.getPerformanceMetrics()
 
     val = {
         "name": name,

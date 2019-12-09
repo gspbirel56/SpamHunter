@@ -214,7 +214,7 @@ def makePrediction(message):
     print(pred_y)
     """
     
-    return str(pred_y.count(1)) + ' out of 4 modes predict this message to be spam.'
+    return str(pred_y.count(1)) + ' out of 4 models predict this message to be spam.'
 
 
 # declaring, training, fitting each algorithm
@@ -227,3 +227,12 @@ def partialFitNewData(message, label):
 
 def switchCurrentAlgorithm():
     pass
+
+def getPerformanceMetrics():
+    if len(X) == 0:
+        preprocessing()
+    
+    if tree == None:
+        loadModels()
+
+    
