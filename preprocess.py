@@ -102,7 +102,6 @@ def extract(message):
     #create list of words from text
     words = clean.split()
     
-    """
     #one-hot
     #set feature value to 1 if word is found in text
     for i in range(len(features)):
@@ -112,7 +111,7 @@ def extract(message):
     #count occurrences of feature word in text
     for i in range(len(features)):
         vector[i] = words.count(features[i])
-    
+    """
     return vector
 
 
