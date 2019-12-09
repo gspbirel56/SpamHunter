@@ -21,6 +21,46 @@ sgd = None
 nn = None
 tree = None
 
+def getPerformanceMetrics(y_actual, y_pred):
+    if len(X) == 0:
+        preprocessing()
+    
+    if tree == None:
+        loadModels()
+        
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
+
+    pla_yPred = pla.predict(X_test)
+    sgd_yPred = sgd.predict(X_test)
+    nn_yPred = nn.predict(X_test)
+    tree_yPred = tree.predict(X_test)
+    
+    accuracy = [accuracy_score(Y_test, pla_yPred), 
+                  accuracy_score(Y_test, sgd_yPred),
+                  accuracy_score(Y_test, nn_yPred),
+                  accuracy_score(Y_test, tree_yPred)]
+    
+    precision = [precision_score(Y_test, pla_yPred, average='macro'),
+                  precision_score(Y_test, sgd_yPred, average='macro'),
+                  precision_score(Y_test, nn_yPred, average='macro'),
+                  precision_score(Y_test, tree_yPred, average='macro')]
+        
+    recall = [recall_score(Y_test, pla_yPred, average='macro'),
+              recall_score(Y_test, sgd_yPred, average='macro'),
+              recall_score(Y_test, nn_yPred, average='macro'),
+              recall_score(Y_test, tree_yPred, average='macro')]
+    
+    f1 = [recall_score(Y_test, pla_yPred, average='macro'),
+          recall_score(Y_test, sgd_yPred, average='macro'),
+          recall_score(Y_test, nn_yPred, average='macro'),
+          recall_score(Y_test, tree_yPred, average='macro')]
+    
+    # accuracy = accuracy_score(y_actual, y_pred)
+    # precision = precision_score(y_actual, y_pred, average='macro')
+    # recall = recall_score(y_actual, y_pred, average='macro')
+    # f1 = f1_score(y_actual, y_pred, average='macro')
+    
+    return accuracy, precision, recall, f1
 
 def printMetrics(y_actual, y_pred):
     print('Accuracy: ', accuracy_score(y_actual, y_pred))
