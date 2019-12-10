@@ -81,7 +81,7 @@ function correctPrediction(correctLabel) {
                 replyObj = JSON.parse(replyString);
                 console.log(replyString)
 
-                // document.getElementById("prediction").innerText = replyObj.response
+                document.getElementById("prediction").innerText = replyObj.response
             }
         }
 
