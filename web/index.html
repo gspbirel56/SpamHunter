@@ -9,18 +9,20 @@
     <!-- Meat 'n potatoes -->
     <body onload="initializeIndex()">
         <div id="interactivity" class="jumbotron">
-            <h1>Spam Hunter</h1>
-            <br>
-            <!-- User interactivity portion -->
-            <h3>Type your message here:</h3>
-            <textarea id='message' style="width: 80%; height: 20%; resize: none;"></textarea>
-            <p>Is it spam or ham? <button onclick="getPrediction()">Find out!</button> </p>
-            <p id="prediction"></p>
-            <div id="hiddenButtons" style="visibility:hidden;">
-                <p>Is this prediction correct?</p>
-                <button id="report_ham" onclick="correctPrediction('ham')">This is actually a ham!</button>
-                <button id="report_spam" onclick="correctPrediction('spam')">This is actually a spam!</button>
-                <button id="clear" onclick="clearIndex()">Clear</button>
+            <div style="padding-left: 5%; padding-right: 5%;">
+                <h1>Spam Hunter</h1>
+                <br>
+                <!-- User interactivity portion -->
+                <h3>Type your message here:</h3>
+                <textarea id='message' style="width: 80%; height: 20%; resize: none;"></textarea>
+                <p>Is it spam or ham? <button onclick="getPrediction()">Find out!</button> </p>
+                <p id="prediction"></p>
+                <div id="hiddenButtons" style="visibility:hidden;">
+                    <p>Is this prediction correct?</p>
+                    <button id="report_ham" onclick="correctPrediction('ham')">This is actually a ham!</button>
+                    <button id="report_spam" onclick="correctPrediction('spam')">This is actually a spam!</button>
+                    <button id="clear" onclick="clearIndex()">Clear</button>
+                </div>
             </div>
         </div>
         <br>
@@ -37,68 +39,88 @@
                 </p>
         </div>
 
-        <div id="top_algorithm">
-            <p>Algorithm currently in use: </p><p name="algorithmInUse"></p>
-            <br>
-            <table id="algsTable" class="table table-bordered table-hover">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Algorithm Name</th>
-                        <th>F1 score</th>
-                        <th>Recall</th>
-                        <th>Accuracy</th>
-                        <th>Precision</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td id="alg1_name"></td>
-                        <td id="alg1_f1"></td>
-                        <td id="alg1_recall"></td>
-                        <td id="alg1_acc"></td>
-                        <td id="alg1_precision"></td>
-
-                    </tr>
-                    <tr>
-                        <td id="alg2_name"></td>
-                        <td id="alg2_f1"></td>
-                        <td id="alg2_recall"></td>
-                        <td id="alg2_acc"></td>
-                        <td id="alg2_precision"></td>
-                    </tr>
-                    <tr>
-                        <td id="alg3_name"></td>
-                        <td id="alg3_f1"></td>
-                        <td id="alg3_recall"></td>
-                        <td id="alg3_acc"></td>
-                        <td id="alg3_precision"></td>
-                    </tr>
-                    <tr>
-                        <td id="alg4_name"></td>
-                        <td id="alg4_f1"></td>
-                        <td id="alg4_recall"></td>
-                        <td id="alg4_acc"></td>
-                        <td id="alg4_precision"></td>
-                    </tr>
-
-                </tbody>
-
-            </table>
         </div>
         <br>
-        <div id="confusion_matrices">
-            <p>Confusion matrices for each algorithm will go here</p>
-        </div>
 
-        <div class="jumbotron">
-            <div id="top_algorithms">
-                <p>Other graphs/visualizations will go here</p>
+        <div style="padding-right: 5%; padding-left: 5%;">
+            <!-- List used in spam -->
+            <div id="spam_messages_list">
+                    <p>Some random sample spam messages (unanimously voted by all 4 algorithms):
+                            <ol>
+                                <li id="top1">Message 1</li>
+                                <li id="top2">Message 2</li>
+                                <li id="top3">Message 3</li>
+                                <li id="top4">Message 4</li>
+                                <li id="top5">Message 5</li>
+                            </ol>
+                        </p>
+                </div>
+        
+                <div id="top_algorithm">
+                    <p>Algorithm currently in use: </p><p name="algorithmInUse"></p>
+                    <br>
+                    <table id="algsTable" class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Algorithm Name</th>
+                                <th>F1 score</th>
+                                <th>Recall</th>
+                                <th>Accuracy</th>
+                                <th>Precision</th>
+                            </tr>
+                        </thead>
+        
+                        <tbody>
+                            <tr>
+                                <td id="alg1_name"></td>
+                                <td id="alg1_f1"></td>
+                                <td id="alg1_recall"></td>
+                                <td id="alg1_acc"></td>
+                                <td id="alg1_precision"></td>
+        
+                            </tr>
+                            <tr>
+                                <td id="alg2_name"></td>
+                                <td id="alg2_f1"></td>
+                                <td id="alg2_recall"></td>
+                                <td id="alg2_acc"></td>
+                                <td id="alg2_precision"></td>
+                            </tr>
+                            <tr>
+                                <td id="alg3_name"></td>
+                                <td id="alg3_f1"></td>
+                                <td id="alg3_recall"></td>
+                                <td id="alg3_acc"></td>
+                                <td id="alg3_precision"></td>
+                            </tr>
+                            <tr>
+                                <td id="alg4_name"></td>
+                                <td id="alg4_f1"></td>
+                                <td id="alg4_recall"></td>
+                                <td id="alg4_acc"></td>
+                                <td id="alg4_precision"></td>
+                            </tr>
+        
+                        </tbody>
+        
+                    </table>
+                </div>
             </div>
-            <div id="top_words">
+
+            <br>
+            <div id="confusion_matrices">
+                <p>Confusion matrices for each algorithm will go here</p>
+            </div>
     
+            <div class="jumbotron">
+                <div id="top_algorithms">
+                    <p>Other graphs/visualizations will go here</p>
+                </div>
+                <div id="top_words">
+        
+                </div>
             </div>
-        </div>
+
 
     </body>
 </html>
