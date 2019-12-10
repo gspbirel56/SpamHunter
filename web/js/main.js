@@ -45,6 +45,12 @@ function getPrediction() {
 
 function correctPrediction(correctLabel) {
 
+    // disable the correctPrediction buttons ("This message is actually a ____!")
+    document.getElementById("report_ham").disabled = true
+    document.getElementById("report_spam").disabled = true
+    // send the label
+    document.getElementById("prediction").innerText = "Retraining models. This may take a while!"
+
     // send the request to the ml
     if (document.getElementById("message").value != '')
     {
@@ -75,12 +81,12 @@ function correctPrediction(correctLabel) {
                 replyObj = JSON.parse(replyString);
                 console.log(replyString)
 
-                // disable the correctPrediction buttons ("This message is actually a ____!")
-                document.getElementById("report_ham").disabled = true
-                document.getElementById("report_spam").disabled = true
+                // document.getElementById("prediction").innerText = replyObj.response
             }
         }
 
+        
+        // send the request
         http.send(data);
     }
 }
@@ -142,6 +148,8 @@ function getTopAlgorithms() {
             $('#algsTable').DataTable();
 
             loadAlgGraph(replyObj)
+
+            console.log(replyString)
         }
     }
     http.send();
