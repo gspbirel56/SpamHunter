@@ -274,50 +274,52 @@ function getConfusionMatrices() {
 
 function loadWordGraph(topWords){
 
+    // var data = [{
+    //     name: topWords.words[0],
+    //     weight: 5
+    // }, {
+    //     name: topWords.words[1],
+    //     weight: 4
+    // }, {
+    //     name: topWords.words[2],
+    //     weight: 3
+    // }, {
+    //     name: topWords.words[3],
+    //     weight: 2
+    // }, {
+    //     name: topWords.words[4],
+    //     weight: 1
+    // }]
+
+    var data = []
+
+    var i = 0
+    var j = 100
+    for (i; i < 25; i++){
+        data[i] = {
+            name: topWords.words[i],
+            weight: j
+        }
+        j = j - 2
+    }
+
+    console.log(data)
+    
     Highcharts.chart('top_words', {
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
-        },
+        series: [{
+            type: 'wordcloud',
+            data: data,
+            name: 'Weight',
+            rotation: {
+                from: 0,
+                to: 0
+            },
+            spiral: 'rectangular',
+            placementStrategy: 'center'
+        }],
         title: {
             text: 'Top Words'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                }
-            }
-        },
-        series: [{
-            name: 'Chance of spam',
-            colorByPoint: true,
-            data: [{
-                name: topWords.words[0],
-                y: 60.0,
-                sliced: true,
-                selected: true
-            }, {
-                name: topWords.words[1],
-                y: 20.0
-            }, {
-                name: topWords.words[2],
-                y: 10.0
-            }, {
-                name: topWords.words[3],
-                y: 5.0
-            }, {
-                name: topWords.words[4],
-                y: 5.0
-            }]
-        }]
-    });
+        }
+    })
+      
 }

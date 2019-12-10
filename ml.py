@@ -308,7 +308,7 @@ def partialFitNewData(message, label):
 
 def topFive():
     features = load('features.joblib')
-    return features[:5]
+    return features[:25]
 
 
 def switchCurrentAlgorithm():
