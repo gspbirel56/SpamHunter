@@ -82,6 +82,9 @@ function correctPrediction(correctLabel) {
                 console.log(replyString)
 
                 document.getElementById("prediction").innerText = replyObj.response
+
+                // reinitialize the index: this will give us updated visualization statistics
+                initializeIndex()
             }
         }
 
