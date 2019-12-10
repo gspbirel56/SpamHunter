@@ -6,3 +6,5 @@ __pycache__/
 .~lock.spam.csv#
 
 Y.joblib
+
+*.joblib
