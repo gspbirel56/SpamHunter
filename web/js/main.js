@@ -1,6 +1,8 @@
 
 function getPrediction() {
 
+    document.getElementById("prediction").innerText = "Initial ML training is currently happening. Please wait..."
+
     // send the request, get the prediction, etc. etc. etc...
     if (document.getElementById("message").value != '')
     {
