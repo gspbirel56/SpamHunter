@@ -82,7 +82,7 @@ def getTopFiveWords():
 
 @app.route('/getConfusionMatrix', methods=["GET"])
 def getConfusionMatrix():
-    return ml.getConfusionMatrix();
+    return ml.getConfusionMatrix()
 
 
 # Run the app!

@@ -200,6 +200,7 @@ function getTopFiveWords() {
 function initializeIndex() {
     getTopAlgorithms();
     getTopFiveWords();
+    getConfusionMatrices();
 }
 
 // when the Clear button is pressed, clear the message textarea
@@ -237,6 +238,35 @@ function loadAlgGraph(topAlgs){
         // }
     ]
     });
+}
+
+function getConfusionMatrices() {
+    var url = "http://localhost:8080"
+    var endpoint = "/getConfusionMatrix"
+
+    var http = new XMLHttpRequest();
+
+    http.open("GET", url + endpoint, true);
+    http.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+    http.onreadystatechange = function () {
+        var DONE = 4;       // 4 means that the request is done
+        var OK = 200;       // 200 means a successful return
+
+        if (http.readyState == DONE && http.status == OK && http.responseText) {
+            // JSON string
+            replyString = http.responseText;
+
+            // JSON -> JS object
+            replyObj = JSON.parse(replyString);
+
+            document.getElementById("confusion_matrices").innerText = "Decision tree confusion matrix:\n" + replyObj["Decision Tree"] +
+            "\nNeural Network confusion matrix:\n" + replyObj["Neural Network"] +
+             "\nPerceptron confusion matrix:\n" + replyObj["Perceptron"] +
+             "\nStochastic gradient descent confusion matrix:\n" + replyObj["Stochastic Gradient Descent"]
+        }
+    }
+    http.send();
 }
 
 function loadWordGraph(topWords){
