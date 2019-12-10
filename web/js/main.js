@@ -217,11 +217,11 @@ function loadAlgGraph(topAlgs){
         },
         yAxis: {
             title: {
-                text: 'F1 Scores'
+                text: 'F1 Score'
             }
         },
         series: [{
-            name: 'Run1',
+            name: 'F1 Scores',
             data: [topAlgs.f1[0], topAlgs.f1[1], topAlgs.f1[2], topAlgs.f1[3]]
         }
         //,
