@@ -29,20 +29,9 @@
 
         <div style="padding-right: 5%; padding-left: 5%;">
             <!-- List used in spam -->
-            <div id="spam_messages_list">
-                    <p>Some random sample spam messages (unanimously voted by all 4 algorithms):
-                            <ol>
-                                <li id="top1">Message 1</li>
-                                <li id="top2">Message 2</li>
-                                <li id="top3">Message 3</li>
-                                <li id="top4">Message 4</li>
-                                <li id="top5">Message 5</li>
-                            </ol>
-                        </p>
-                </div>
-        
+
+            <h2>Algorithm Metrics</h2>
                 <div id="top_algorithm">
-                    <p>Algorithm currently in use: </p><p name="algorithmInUse"></p>
                     <br>
                     <table id="algsTable" class="table table-bordered table-hover">
                         <thead class="thead-dark">
@@ -90,22 +79,69 @@
         
                     </table>
                 </div>
+
+                <br>
+                <h2>Confusion Matix Report</h2>
+                </p>
+    
+                <div id="i_am_confusion">
+                    <table id="confusion_table" class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Algorithm Name</th>
+                                <th>True Negative</th>
+                                <th>False Positive</th>
+                                <th>False Negative</th>
+                                <th>True Positive</th>
+                            </tr>
+                        </thead>
+    
+                        <tbody>
+                            <tr>
+                                <td id="alg1_con_name"></td>
+                                <td id="alg1_tn"></td>
+                                <td id="alg1_fp"></td>
+                                <td id="alg1_fn"></td>
+                                <td id="alg1_tp"></td>
+        
+                            </tr>
+                            <tr>
+                                <td id="alg2_con_name"></td>
+                                <td id="alg2_tn"></td>
+                                <td id="alg2_fp"></td>
+                                <td id="alg2_fn"></td>
+                                <td id="alg2_tp"></td>
+                            </tr>
+                            <tr>
+                                <td id="alg3_con_name"></td>
+                                <td id="alg3_tn"></td>
+                                <td id="alg3_fp"></td>
+                                <td id="alg3_fn"></td>
+                                <td id="alg3_tp"></td>
+                            </tr>
+                            <tr>
+                                <td id="alg4_con_name"></td>
+                                <td id="alg4_tn"></td>
+                                <td id="alg4_fp"></td>
+                                <td id="alg4_fn"></td>
+                                <td id="alg4_tp"></td>
+                            </tr>
+            
+                        </tbody>
+    
+                    </table>
+                    </div>
+
             </div>
 
-            <br>
-            <p>Confusion matrices: These values show what percent of the messages were designated as, respectively:<br>
-                true negative, false positive, false positive, and true positive.
-            </p>
-            <div id="confusion_matrices">
-                <p>Confusion matrices for each algorithm will go here</p>
-            </div>
+ 
     
             <div class="jumbotron">
                 <div id="top_algorithms">
-                    <p>Other graphs/visualizations will go here</p>
+
                 </div>
                 <div id="top_words">
-        
+
                 </div>
             </div>
 

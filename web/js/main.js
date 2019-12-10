@@ -7,7 +7,6 @@ function getPrediction() {
         var data = JSON.stringify({
             "message": document.getElementById('message').value
         });
-        console.log(data)
 
         var url = "http://localhost:8080"
         var endpoint = "/predict"
@@ -28,7 +27,6 @@ function getPrediction() {
 
                 // JSON -> JS object
                 replyObj = JSON.parse(replyString);
-                console.log(replyString)
                 document.getElementById('prediction').innerHTML = replyObj.prediction;
                 // make the hidden buttons visible
                 document.getElementById("hiddenButtons").style.visibility = "visible";
@@ -58,7 +56,6 @@ function correctPrediction(correctLabel) {
             "message": document.getElementById('message').value,
             label: correctLabel
         });
-        console.log(data)
 
         var url = "http://localhost:8080"
         var endpoint = "/correctPrediction"
@@ -79,7 +76,6 @@ function correctPrediction(correctLabel) {
 
                 // JSON -> JS object
                 replyObj = JSON.parse(replyString);
-                console.log(replyString)
 
                 document.getElementById("prediction").innerText = replyObj.response
 
@@ -113,7 +109,6 @@ function getTopAlgorithms() {
 
             // JSON -> JS object
             replyObj = JSON.parse(replyString);
-            console.log(replyObj)
             // put the algorithm names in their ranked order
             // document.getElementById("alg1_name").innerHTML = "<b>" + replyObj.name[0] + "</b>";
             document.getElementById("alg1_name").innerText = replyObj.name[0];
@@ -152,7 +147,6 @@ function getTopAlgorithms() {
 
             loadAlgGraph(replyObj)
 
-            console.log(replyString)
         }
     }
     http.send();
@@ -186,13 +180,8 @@ function getTopFiveWords() {
             replyObj = JSON.parse(replyString);
 
             // put the algorithm names in their ranked order
-            document.getElementById("top1").innerText = replyObj.words[0];
-            document.getElementById("top2").innerText = replyObj.words[1];
-            document.getElementById("top3").innerText = replyObj.words[2];
-            document.getElementById("top4").innerText = replyObj.words[3];
-            document.getElementById("top5").innerText = replyObj.words[4];
+
             
-            console.log(replyObj)
             loadWordGraph(replyObj);
         }
     }
@@ -214,7 +203,6 @@ function clearIndex() {
 }
 
 function loadAlgGraph(topAlgs){
-    console.log(topAlgs)
     var algChart = Highcharts.chart('top_algorithms', {
         chart: {
             type: 'bar'
@@ -262,34 +250,44 @@ function getConfusionMatrices() {
 
             // JSON -> JS object
             replyObj = JSON.parse(replyString);
+            console.log(replyObj)
 
-            document.getElementById("confusion_matrices").innerText = "Decision tree confusion matrix:\n" + replyObj["Decision Tree"] +
-            "\nNeural Network confusion matrix:\n" + replyObj["Neural Network"] +
-             "\nPerceptron confusion matrix:\n" + replyObj["Perceptron"] +
-             "\nStochastic gradient descent confusion matrix:\n" + replyObj["Stochastic Gradient Descent"]
+            document.getElementById("alg1_con_name").innerText = 'Perceptron'
+            document.getElementById('alg1_tn').innerText = replyObj["Perceptron"][0][0]
+            document.getElementById('alg1_fp').innerText = replyObj["Perceptron"][0][1]
+            document.getElementById('alg1_fn').innerText = replyObj["Perceptron"][1][0]
+            document.getElementById('alg1_tp').innerText = replyObj["Perceptron"][1][1]
+
+            document.getElementById("alg2_con_name").innerText = 'Stochastic Gradient Descent'
+            document.getElementById('alg2_tn').innerText = replyObj["Stochastic Gradient Descent"][0][0]
+            document.getElementById('alg2_fp').innerText = replyObj["Stochastic Gradient Descent"][0][1]
+            document.getElementById('alg2_fn').innerText = replyObj["Stochastic Gradient Descent"][1][0]
+            document.getElementById('alg2_tp').innerText = replyObj["Stochastic Gradient Descent"][1][1]
+
+            document.getElementById("alg3_con_name").innerText = 'Neural Network'
+            document.getElementById('alg3_tn').innerText = replyObj["Neural Network"][0][0]
+            document.getElementById('alg3_fp').innerText = replyObj["Neural Network"][0][1]
+            document.getElementById('alg3_fn').innerText = replyObj["Neural Network"][1][0]
+            document.getElementById('alg3_tp').innerText = replyObj["Neural Network"][1][1]
+
+            document.getElementById("alg4_con_name").innerText = 'Decision Tree'
+            document.getElementById('alg4_tn').innerText = replyObj["Decision Tree"][0][0]
+            document.getElementById('alg4_fp').innerText = replyObj["Decision Tree"][0][1]
+            document.getElementById('alg4_fn').innerText = replyObj["Decision Tree"][1][0]
+            document.getElementById('alg4_tp').innerText = replyObj["Decision Tree"][1][1]
+
+            $('#confusion_table').DataTable()
+
+            // document.getElementById("confusion_matrices").innerText = "Decision tree confusion matrix:\n" + replyObj["Decision Tree"] +
+            // "\nNeural Network confusion matrix:\n" + replyObj["Neural Network"] +
+            //  "\nPerceptron confusion matrix:\n" + replyObj["Perceptron"] +
+            //  "\nStochastic gradient descent confusion matrix:\n" + replyObj["Stochastic Gradient Descent"]
         }
     }
     http.send();
 }
 
 function loadWordGraph(topWords){
-
-    // var data = [{
-    //     name: topWords.words[0],
-    //     weight: 5
-    // }, {
-    //     name: topWords.words[1],
-    //     weight: 4
-    // }, {
-    //     name: topWords.words[2],
-    //     weight: 3
-    // }, {
-    //     name: topWords.words[3],
-    //     weight: 2
-    // }, {
-    //     name: topWords.words[4],
-    //     weight: 1
-    // }]
 
     var data = []
 
@@ -309,10 +307,10 @@ function loadWordGraph(topWords){
         series: [{
             type: 'wordcloud',
             data: data,
-            name: 'Weight',
+            name: 'Rank',
             rotation: {
                 from: 0,
-                to: 0
+                to: 90
             },
             spiral: 'rectangular',
             placementStrategy: 'center'
