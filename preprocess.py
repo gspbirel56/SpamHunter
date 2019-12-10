@@ -7,6 +7,7 @@ from joblib import dump, load
 
 features = []
 
+
 #read in training and testing data
 #kaggle and UCI contain the same data
 def read_data():
@@ -30,6 +31,7 @@ def read_data():
     return data
 
 
+
 def clean_text(text):
     #remove html tags
     clean = re.sub('<[^<]+?>', '', text)
@@ -45,8 +47,6 @@ def clean_text(text):
 
 
 ### create features from training data
-### input - spam/ham training set
-### returns a list of feature words
 def define_features(data, num_features=1000):
     #create list of text and labels
     text =  data['text'].tolist()
@@ -86,8 +86,6 @@ def define_features(data, num_features=1000):
 
 
 ### creates a feature vector from a message
-### input - list of feature words and an sms message
-### returns a feature vector of 1 if feature is found in text and 0 if feature is not
 def extract(message):
     global features
     
@@ -120,8 +118,6 @@ def extract(message):
 
 
 ### creates a feature matrix from a data set
-### input - list of feature words and data set to extract features from
-### returns a numpy matrix containing a feature vector for each message, also returns an array of correct labels
 def prepare(data):
     #create list of text and labels
     text =  data['text'].tolist()
@@ -142,14 +138,18 @@ def prepare(data):
     return np.array(matrix), target
 
 
+
 # for API
 def loadXY(refresh_data=False):
     if not os.path.isfile('X0.joblib') or not os.path.isfile('X1.joblib') or not os.path.isfile('Y.joblib') or refresh_data:
+        print('Reading data...')
         data = read_data()
         
         #extract features from training data
+        print('Defining features...')
         define_features(data)
         
+        print('Preprocessing data...')
         #create feature matrix for training and testing data
         X, Y = prepare(data)
         dump(X[:25000, :], 'X0.joblib')

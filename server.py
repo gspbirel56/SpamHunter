@@ -10,7 +10,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-#import json
 
 # Endpoint to load index.html
 @app.route('/')
@@ -29,10 +28,8 @@ def get_script():
 @app.route('/predict', methods=["POST"])
 def predict():
     json = request.get_json()
-    #message = json.loads(request.get_json())
     print(json)
     message = json['message']
-    #response = json.dumps({'prediction': 'spam'})
     response = {'prediction': ml.makePrediction(message)}
     return response
 

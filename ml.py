@@ -200,10 +200,10 @@ def makePrediction(message):
     
     #predicted label
     pred_y = []
-    pred_y.append(pla.predict([preprocess.extract(message)])[0])
-    pred_y.append(sgd.predict([preprocess.extract(message)])[0])
-    pred_y.append(nn.predict([preprocess.extract(message)])[0])
-    pred_y.append(tree.predict([preprocess.extract(message)])[0])
+    pred_y.append('spam' if pla.predict([preprocess.extract(message)])[0] == 1 else 'ham')
+    pred_y.append('spam' if sgd.predict([preprocess.extract(message)])[0] == 1 else 'ham')
+    pred_y.append('spam' if nn.predict([preprocess.extract(message)])[0] == 1 else 'ham')
+    pred_y.append('spam' if tree.predict([preprocess.extract(message)])[0] == 1 else 'ham')
     print(pred_y, '\n')
     
     """
@@ -216,7 +216,8 @@ def makePrediction(message):
     print(pred_y)
     """
     
-    return str(pred_y.count(1)) + ' out of 4 models predict this message to be spam.'
+    #return str(pred_y.count(1)) + ' out of 4 models predict this message to be spam.'
+    return str(pred_y.count('spam')) + ' out of 4 models predict this message to be spam.<br><br>Perceptron: ' + pred_y[0] + '<br>Stochastic Gradient Descent: ' + pred_y[1] + '<br>Neural Network: ' + pred_y[2] + '<br>Decision Tree: ' + pred_y[3] + '<br><br>'
 
 
 def getPerformanceMetrics():
