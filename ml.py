@@ -278,28 +278,34 @@ def getConfusionMatrix():
 # partial fit the new prediction data to each algorithm
 def partialFitNewData(message, label):
     before = getPerformanceMetrics()
-    global pla, sgd, nn, tree
+    global pla, sgd, nn, tree, X, Y
     
     x_new = [preprocess.extract(message)]
     y_new = [0 if label == 'ham' else 1]
     
     print('Updating Perceptron Model...')
     pla.partial_fit(x_new, y_new)
-    #dump(pla, 'pla.joblib')
+    dump(pla, 'pla.joblib')
     
     print('Updating Stochastic Gradient Descent Model...')
     sgd.partial_fit(x_new, y_new)
-    #dump(sgd, 'sgd.joblib')
+    dump(sgd, 'sgd.joblib')
     
     print('Updating Neural Network...')
     nn.partial_fit(x_new, y_new)
-    #dump(nn, 'nn.joblib')
+    dump(nn, 'nn.joblib')
+    
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
+    X = np.concatenate((X, x_new), axis=0)
+    Y = np.concatenate((Y, y_new), axis=0)
+    dump(X[:25000, :], 'X0.joblib')
+    dump(X[25000:, :], 'X1.joblib')
+    dump(Y, 'Y.joblib')
     
     print('Retraining Decision Tree...')
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
     tree = DecisionTreeClassifier()
     tree.fit(np.concatenate((X_train, x_new), axis=0), np.concatenate((Y_train, y_new), axis=0))
-    #dump(tree, 'tree.joblib')
+    dump(tree, 'tree.joblib')
     
     after = getPerformanceMetrics()
     print(np.subtract(after, before))

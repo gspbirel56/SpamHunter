@@ -19,6 +19,9 @@ def read_data():
     #read spamassassin data
     data = pd.concat([data, pd.read_csv('spamassassin.csv', header=None).drop(2, axis=1)])
     
+    #read spamassassin data
+    data = pd.concat([data, pd.read_csv('user.csv', header=None).drop(2, axis=1)])
+    
     data = data.drop_duplicates()
     data = data.dropna(axis=0, how='any')
     data.reset_index(drop=True, inplace=True)
@@ -149,9 +152,9 @@ def loadXY(refresh_data=False):
         
         #create feature matrix for training and testing data
         X, Y = prepare(data)
-        dump(X[:20000, :], 'X0.joblib')
-        dump(X[20000:, :], 'X1.joblib')
-        dump(Y, 'Y.joblib')        
+        dump(X[:25000, :], 'X0.joblib')
+        dump(X[25000:, :], 'X1.joblib')
+        dump(Y, 'Y.joblib')
         return X, Y
     else :
         X = np.concatenate((load('X0.joblib'), load('X1.joblib')))

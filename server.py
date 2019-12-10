@@ -44,6 +44,11 @@ def correctPrediction():
     message = json["message"]
     label = json["label"]
     print(json)
+    
+    fout = open('user.csv', 'a')
+    fout.write(str(label) + ',' + str(message).replace(',', '') + ',\n')
+    fout.close()
+    
     response = {'response': ml.partialFitNewData(message, label)}
     return response
 
