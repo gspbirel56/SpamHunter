@@ -89,5 +89,5 @@ def getConfusionMatrix():
 
 # Run the app!
 if __name__ == '__main__':
-    app.run(port = 8080)
     ml.mlinit()
+    app.run(port = 8080)
